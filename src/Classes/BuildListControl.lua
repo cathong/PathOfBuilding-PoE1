@@ -3,6 +3,7 @@
 -- Class: Build List
 -- Build list control.
 --
+local locale = require("Modules.Localization")
 local ipairs = ipairs
 local s_format = string.format
 local buildListHelpers = require("Modules.BuildListHelpers")
@@ -117,7 +118,7 @@ function BuildListClass:RenameBuild(build, copyOnName)
 			end
 		end
 	end)
-	controls.save = new("ButtonControl"):ButtonControl(nil, {-45, 70, 80, 20}, "Save", function()
+	controls.save = new("ButtonControl"):ButtonControl(nil, {-45, 70, 80, 20}, locale.Label("Save"), function()
 		local newBuildName = controls.edit.buf
 		if build.folderName then
 			if copyOnName then
@@ -152,7 +153,7 @@ function BuildListClass:RenameBuild(build, copyOnName)
 		self.listMode:SelectControl(self)
 	end)
 	controls.save.enabled = false
-	controls.cancel = new("ButtonControl"):ButtonControl(nil, {45, 70, 80, 20}, "Cancel", function()
+	controls.cancel = new("ButtonControl"):ButtonControl(nil, {45, 70, 80, 20}, locale.Label("Cancel"), function()
 		main:ClosePopup()
 		self.listMode:SelectControl(self)
 	end)

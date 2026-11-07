@@ -11,7 +11,7 @@ function CheckBoxClass:CheckBoxControl(anchor, rect, label, changeFunc, tooltipT
 	self:Control(anchor, rect)
 	self:TooltipHost(tooltipText)
 	self.label = label
-	self.labelWidth = DrawStringWidth(self.width - 4, "VAR", label or "") + 5
+	self.labelWidth = DrawStringWidth(self.width - 4, "VAR", self:GetProperty("label") or "") + 5
 	self.labelRight = false
 	self.changeFunc = changeFunc
 	self.state = initialState
@@ -29,10 +29,11 @@ function CheckBoxClass:IsMouseOver()
 	-- Include the label in the clickable area.
 	local label = self:GetProperty("label")
 	if label then
+		local labelWidth = type(self.label) == "function" and DrawStringWidth(self.width - 4, "VAR", label) + 5 or self.labelWidth
 		if not self.labelRight then
-			x = x - self.labelWidth
+			x = x - labelWidth
 		end
-		width = width + self.labelWidth
+		width = width + labelWidth
 	end
 	return cursorX >= x and cursorY >= y and cursorX < x + width and cursorY < y + height
 end

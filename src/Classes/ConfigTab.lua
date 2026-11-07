@@ -3,6 +3,7 @@
 -- Module: Config Tab
 -- Configuration tab for the current build.
 --
+local locale = require("Modules.Localization")
 local t_insert = table.insert
 local m_min = math.min
 local m_max = math.max
@@ -48,7 +49,7 @@ function CustomModBlockClass:CustomModBlockControl(anchor, rect, configTab, bloc
 		configTab.build.buildFlag = true
 	end)
 
-	self.controls.addModBtn = new("ButtonControl"):ButtonControl({"LEFT", self.controls.titleEdit, "RIGHT"}, {6, 0, 58, 18}, "^7Add Mod", function()
+	self.controls.addModBtn = new("ButtonControl"):ButtonControl({"LEFT", self.controls.titleEdit, "RIGHT"}, {6, 0, 58, 18}, locale.Label("^7Add Mod"), function()
 		configModBrowser.OpenAddModPopup(self.configTab, blockData)
 	end)
 
@@ -171,8 +172,8 @@ function ConfigTabClass:ConfigTab(build)
 	self.controls.setSelect.enabled = function()
 		return #self.configSetOrderList > 1
 	end
-	self.controls.setLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.setSelect, "LEFT" }, { -2, 0, 0, 16 }, "^7Config set:")
-	self.controls.setManage = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.setSelect, "RIGHT" }, { 4, 0, 90, 20 }, "Manage...", function()
+	self.controls.setLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.setSelect, "LEFT" }, { -2, 0, 0, 16 }, locale.Label("^7Config set:"))
+	self.controls.setManage = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.setSelect, "RIGHT" }, { 4, 0, 90, 20 }, locale.Label("Manage..."), function()
 		self:OpenConfigSetManagePopup()
 	end)
 
@@ -813,7 +814,7 @@ function ConfigTabClass:ConfigTab(build)
 	end
 	self.controls.scrollBar = new("ScrollBarControl"):ScrollBarControl({"TOPRIGHT",self,"TOPRIGHT"}, {0, 0, 18, 0}, 50, "VERTICAL", true)
 	if self.customSection then
-		self.controls.customModsAddBlock = new("ButtonControl"):ButtonControl({"TOPLEFT", self.customSection, "TOPLEFT"}, {8, 0, 120, 20}, "^7Add Mod Group", function()
+		self.controls.customModsAddBlock = new("ButtonControl"):ButtonControl({"TOPLEFT", self.customSection, "TOPLEFT"}, {8, 0, 120, 20}, locale.Label("^7Add Mod Group"), function()
 			local customModsList = self.configSets[self.activeConfigSetId].customModsList
 			t_insert(customModsList, { title = "Group " .. (#customModsList + 1), enabled = true, text = "" })
 			self:UpdateCustomModsControls()
@@ -1270,7 +1271,7 @@ end
 function ConfigTabClass:OpenConfigSetManagePopup()
 	main:OpenPopup(370, 290, "Manage Config Sets", {
 		new("ConfigSetListControl"):ConfigSetListControl(nil, {0, 50, 350, 200}, self),
-		new("ButtonControl"):ButtonControl(nil, {0, 260, 90, 20}, "Done", function()
+		new("ButtonControl"):ButtonControl(nil, {0, 260, 90, 20}, locale.Label("Done"), function()
 			main:ClosePopup()
 		end),
 	})

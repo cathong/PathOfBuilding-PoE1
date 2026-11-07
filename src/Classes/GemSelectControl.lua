@@ -1,5 +1,6 @@
 -- Path of Building
 --
+local locale = require("Modules.Localization")
 -- Class: Gem Select
 -- Gem selection combobox
 --
@@ -567,7 +568,7 @@ function GemSelectClass:Draw(viewPort, noTooltip)
 					SetDrawColor(colorCodes.INTELLIGENCE)
 				end
 			end
-			local gemText = gemData and gemData.name or "<No matches>"
+			local gemText = gemData and locale.Term("gems", gemData.name) or locale.Text("<No matches>")
 			DrawString(0, y, "LEFT", height - 4, "VAR", gemText)
 			if gemData then
 				if gemData.grantedEffect.support and self.sortCache.canSupport[gemId] and self.sortCache.dpsColor[gemId] ~= "" then

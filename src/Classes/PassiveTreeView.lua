@@ -1,5 +1,6 @@
 -- Path of Building
 --
+local locale = require("Modules.Localization")
 -- Class: Passive Tree View
 -- Passive skill tree viewer.
 -- Draws the passive skill tree, and also maintains the current view settings (zoom level, position, etc)
@@ -1427,9 +1428,9 @@ function PassiveTreeViewClass:AddNodeName(tooltip, node, build)
 	else
 		tooltip.tooltipHeader = tooltipMap[node.type] or "UNKNOWN"
 	end
-	local nodeName = node.dn
+	local nodeName = locale.Term("passives", node.dn)
 	if main.showFlavourText then
-		nodeName = "^xF8E6CA" .. node.dn
+		nodeName = "^xF8E6CA" .. nodeName
 	end
 	tooltip.center = true
 	tooltip:AddLine(24, nodeName..(launch.devModeAlt and " ["..node.id.."]" or ""), "FONTIN")
@@ -1846,9 +1847,9 @@ function PassiveTreeViewClass:AddCompareNodeName(tooltip, node)
 	else
 		tooltip.tooltipHeader = tooltipMap[node.type] or "UNKNOWN"
 	end
-	local nodeName = node.dn
+	local nodeName = locale.Term("passives", node.dn)
 	if main.showFlavourText then
-		nodeName = "^xF8E6CA" .. node.dn
+		nodeName = "^xF8E6CA" .. nodeName
 	end
 	tooltip.center = true
 	tooltip:AddLine(24, nodeName..(launch.devModeAlt and " ["..node.id.."]" or ""), "FONTIN")

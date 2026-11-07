@@ -3,6 +3,7 @@
 -- Module: Skills Tab
 -- Skills tab for the current build.
 --
+local locale = require("Modules.Localization")
 local pairs = pairs
 local ipairs = ipairs
 local t_insert = table.insert
@@ -104,8 +105,8 @@ function SkillsTabClass:SkillsTab(build)
 	self.controls.setSelect.enabled = function()
 		return #self.skillSetOrderList > 1
 	end
-	self.controls.setLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.setSelect, "LEFT" }, { -2, 0, 0, 16 }, "^7Skill set:")
-	self.controls.setManage = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.setSelect, "RIGHT" }, { 4, 0, 90, 20 }, "Manage...", function()
+	self.controls.setLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.setSelect, "LEFT" }, { -2, 0, 0, 16 }, locale.Label("^7Skill set:"))
+	self.controls.setManage = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.setSelect, "RIGHT" }, { 4, 0, 90, 20 }, locale.Label("Manage..."), function()
 		self:OpenSkillSetManagePopup()
 	end)
 
@@ -124,8 +125,8 @@ function SkillsTabClass:SkillsTab(build)
 	-- Gem options
 	local optionInputsX = 170
 	local optionInputsY = 45
-	self.controls.optionSection = new("SectionControl"):SectionControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { 0, optionInputsY + 50, 360, 156 }, "Gem Options")
-	self.controls.sortGemsByDPS = new("CheckBoxControl"):CheckBoxControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 70, 20 }, "Sort gems by DPS:", function(state)
+	self.controls.optionSection = new("SectionControl"):SectionControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { 0, optionInputsY + 50, 360, 156 }, locale.Label("Gem Options"))
+	self.controls.sortGemsByDPS = new("CheckBoxControl"):CheckBoxControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 70, 20 }, locale.Label("Sort gems by DPS:"), function(state)
 		self.sortGemsByDPS = state
 	end, nil, true)
 	self.controls.sortGemsByDPSFieldControl = new("DropDownControl"):DropDownControl({ "LEFT", self.controls.sortGemsByDPS, "RIGHT" }, { 10, 0, 140, 20 }, sortGemTypeList, function(index, value)
@@ -140,16 +141,16 @@ function SkillsTabClass:SkillsTab(build)
 			tooltip:AddLine(16, "^7" .. value.description)
 		end
 	end
-	self.controls.defaultLevelLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.defaultLevel, "LEFT" }, { -4, 0, 0, 16 }, "^7Default gem level:")
+	self.controls.defaultLevelLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.defaultLevel, "LEFT" }, { -4, 0, 0, 16 }, locale.Label("^7Default gem level:"))
 	self.controls.defaultQuality = new("EditControl"):EditControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 118, 60, 20 }, nil, nil, "%D", 2, function(buf)
 		self.defaultGemQuality = m_min(tonumber(buf) or 0, 23)
 	end)
-	self.controls.defaultQualityLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.defaultQuality, "LEFT" }, { -4, 0, 0, 16 }, "^7Default gem quality:")
+	self.controls.defaultQualityLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.defaultQuality, "LEFT" }, { -4, 0, 0, 16 }, locale.Label("^7Default gem quality:"))
 	self.controls.showSupportGemTypes = new("DropDownControl"):DropDownControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 142, 170, 20 }, showSupportGemTypeList, function(index, value)
 		self.showSupportGemTypes = value.show
 	end)
-	self.controls.showSupportGemTypesLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.showSupportGemTypes, "LEFT" }, { -4, 0, 0, 16 }, "^7Show support gems:")
-	self.controls.showLegacyGems = new("CheckBoxControl"):CheckBoxControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 166, 20 }, "^7Show legacy gems:", function(state)
+	self.controls.showSupportGemTypesLabel = new("LabelControl"):LabelControl({ "RIGHT", self.controls.showSupportGemTypes, "LEFT" }, { -4, 0, 0, 16 }, locale.Label("^7Show support gems:"))
+	self.controls.showLegacyGems = new("CheckBoxControl"):CheckBoxControl({ "TOPLEFT", self.controls.groupList, "BOTTOMLEFT" }, { optionInputsX, optionInputsY + 166, 20 }, locale.Label("^7Show legacy gems:"), function(state)
 		self.showLegacyGems = state
 	end)
 
@@ -168,7 +169,7 @@ function SkillsTabClass:SkillsTab(build)
 		self:AddUndoState()
 		self.build.buildFlag = true
 	end)
-	self.controls.groupSlotLabel = new("LabelControl"):LabelControl({ "TOPLEFT", self.anchorGroupDetail, "TOPLEFT" }, { 0, 30, 0, 16 }, "^7Socketed in:")
+	self.controls.groupSlotLabel = new("LabelControl"):LabelControl({ "TOPLEFT", self.anchorGroupDetail, "TOPLEFT" }, { 0, 30, 0, 16 }, locale.Label("^7Socketed in:"))
 	self.controls.groupSlot = new("DropDownControl"):DropDownControl({ "TOPLEFT", self.anchorGroupDetail, "TOPLEFT" }, { 85, 28, 130, 20 }, groupSlotDropList, function(index, value)
 		-- maintain imbued support to new slot
 		if self.imbuedSupportBySlot[self.displayGroup.slot] and self.displayGroup.imbuedSupport then
@@ -204,12 +205,12 @@ function SkillsTabClass:SkillsTab(build)
 	self.controls.groupSlot.enabled = function()
 		return self.displayGroup.source == nil
 	end
-	self.controls.groupEnabled = new("CheckBoxControl"):CheckBoxControl({ "LEFT", self.controls.groupSlot, "RIGHT" }, { 70, 0, 20 }, "Enabled:", function(state)
+	self.controls.groupEnabled = new("CheckBoxControl"):CheckBoxControl({ "LEFT", self.controls.groupSlot, "RIGHT" }, { 70, 0, 20 }, locale.Label("Enabled:"), function(state)
 		self.displayGroup.enabled = state
 		self:AddUndoState()
 		self.build.buildFlag = true
 	end)
-	self.controls.includeInFullDPS = new("CheckBoxControl"):CheckBoxControl({ "LEFT", self.controls.groupEnabled, "RIGHT" }, { 145, 0, 20 }, "Include in Full DPS:", function(state)
+	self.controls.includeInFullDPS = new("CheckBoxControl"):CheckBoxControl({ "LEFT", self.controls.groupEnabled, "RIGHT" }, { 145, 0, 20 }, locale.Label("Include in Full DPS:"), function(state)
 		self.displayGroup.includeInFullDPS = state
 		self:AddUndoState()
 		self.build.buildFlag = true
@@ -253,7 +254,7 @@ function SkillsTabClass:SkillsTab(build)
 		local maxSockets = (item.base.socketLimit or 0) - abyssalSocketCount
 		return maxSockets, abyssalSocketCount
 	end
-	self.controls.optimiseSockets = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.socketsLabel, "RIGHT" }, { 4, 0, 120, 18 }, "Optimise Sockets", function()
+	self.controls.optimiseSockets = new("ButtonControl"):ButtonControl({ "LEFT", self.controls.socketsLabel, "RIGHT" }, { 4, 0, 120, 18 }, locale.Label("Optimise Sockets"), function()
 		local item, groupSlot = getSelectedItem()
 		if not item or not groupSlot or not item.base then
 			return
@@ -311,7 +312,7 @@ function SkillsTabClass:SkillsTab(build)
 		end
 		return false
 	end
-	self.controls.optimiseSockets.tooltipText = "Rebuild the item's sockets to match the groups assigned to it."
+	self.controls.optimiseSockets.tooltipText = locale.Label("Rebuild the item's sockets to match the groups assigned to it.")
 	-- self.imbuedSupportBySlot is used by CalcSetup to add an ExtraSupport mod of the selected gem
 	-- Each displayGroup has its own "imbuedSupport" and is saved to the xml to load when changing sockets or loading a build
 	-- "slotName" is used on import, which uses builtInSupport to get the gemData and pass in here
@@ -368,7 +369,7 @@ function SkillsTabClass:SkillsTab(build)
 	end
 	self.controls.imbuedSupportClear.tooltipText = "Remove this imbued support."
 
-	self.controls.groupCountLabel = new("LabelControl"):LabelControl({ "LEFT", self.controls.includeInFullDPS, "RIGHT" }, { 16, 0, 0, 16 }, "^7Count:")
+	self.controls.groupCountLabel = new("LabelControl"):LabelControl({ "LEFT", self.controls.includeInFullDPS, "RIGHT" }, { 16, 0, 0, 16 }, locale.Label("^7Count:"))
 	self.controls.groupCountLabel.shown = function()
 		return self.displayGroup.source ~= nil
 	end
@@ -429,11 +430,11 @@ will automatically apply to the skill.]]
 	self.anchorGemSlots = new("Control"):Control({ "TOPLEFT", self.controls.imbuedSupportLabel, "BOTTOMLEFT" }, { 0, 30, 0, 0 })
 	self.gemSlots = {}
 	self:CreateGemSlot(1)
-	self.controls.gemNameHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].nameSpec, "TOPLEFT"}, {0, -2, 0, 16}, "^7Gem name:")
-	self.controls.gemLevelHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].level, "TOPLEFT"}, {0, -2, 0, 16}, "^7Level:")
-	self.controls.gemQualityHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].quality, "TOPLEFT"}, {0, -2, 0, 16}, "^7Quality:")
-	self.controls.gemEnableHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].enabled, "TOPLEFT"}, {-16, -2, 0, 16}, "^7Enabled:")
-	self.controls.gemCountHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].count, "TOPLEFT"}, {8, -2, 0, 16}, "^7Count:")
+	self.controls.gemNameHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].nameSpec, "TOPLEFT"}, {0, -2, 0, 16}, locale.Label("^7Gem name:"))
+	self.controls.gemLevelHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].level, "TOPLEFT"}, {0, -2, 0, 16}, locale.Label("^7Level:"))
+	self.controls.gemQualityHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].quality, "TOPLEFT"}, {0, -2, 0, 16}, locale.Label("^7Quality:"))
+	self.controls.gemEnableHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].enabled, "TOPLEFT"}, {-16, -2, 0, 16}, locale.Label("^7Enabled:"))
+	self.controls.gemCountHeader = new("LabelControl"):LabelControl({"BOTTOMLEFT", self.gemSlots[1].count, "TOPLEFT"}, {8, -2, 0, 16}, locale.Label("^7Count:"))
 	return self
 end
 
@@ -779,7 +780,7 @@ function SkillsTabClass:CreateGemSlot(index)
 	slot.delete.enabled = function()
 		return index <= #self.displayGroup.gemList
 	end
-	slot.delete.tooltipText = "Remove this gem."
+	slot.delete.tooltipText = locale.Label("Remove this gem.")
 	self.controls["gemSlot"..index.."Delete"] = slot.delete
 
 	-- Gem name specification
@@ -896,7 +897,7 @@ function SkillsTabClass:CreateGemSlot(index)
 
 			-- Function for both granted effect and secondary such as vaal
 			local addQualityLines = function(qualityList, grantedEffect)
-				tooltip:AddLine(18, colorCodes.GEM..grantedEffect.name)
+				tooltip:AddLine(18, colorCodes.GEM..locale.Term("gems", grantedEffect.name))
 				-- Hardcoded to use 20% quality instead of grabbing from gem, this is for consistency and so we always show something
 				tooltip:AddLine(16, colorCodes.NORMAL.."At +20% Quality:")
 				for k, qual in pairs(qualityList) do
@@ -1442,7 +1443,7 @@ end
 function SkillsTabClass:OpenSkillSetManagePopup()
 	main:OpenPopup(370, 290, "Manage Skill Sets", {
 		new("SkillSetListControl"):SkillSetListControl(nil, {0, 50, 350, 200}, self),
-		new("ButtonControl"):ButtonControl(nil, {0, 260, 90, 20}, "Done", function()
+		new("ButtonControl"):ButtonControl(nil, {0, 260, 90, 20}, locale.Label("Done"), function()
 			main:ClosePopup()
 		end),
 	})

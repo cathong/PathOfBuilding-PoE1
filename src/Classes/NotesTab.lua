@@ -3,6 +3,7 @@
 -- Module: Notes Tab
 -- Notes tab for the current build.
 --
+local locale = require("Modules.Localization")
 local t_insert = table.insert
 
 ---@class NotesTab: ControlHost, Control
@@ -33,7 +34,7 @@ Below are some common color codes PoB uses:	]]
 	self.controls.strength = new("ButtonControl"):ButtonControl({"TOPLEFT",self.controls.fire,"TOPLEFT"}, {0, 18, 100, 18}, colorCodes.STRENGTH.."STRENGTH", function() self:SetColor(colorCodes.STRENGTH) end)
 	self.controls.dexterity = new("ButtonControl"):ButtonControl({"TOPLEFT",self.controls.strength,"TOPLEFT"}, {120, 0, 100, 18}, colorCodes.DEXTERITY.."DEXTERITY", function() self:SetColor(colorCodes.DEXTERITY) end)
 	self.controls.intelligence = new("ButtonControl"):ButtonControl({"TOPLEFT",self.controls.dexterity,"TOPLEFT"}, {120, 0, 100, 18}, colorCodes.INTELLIGENCE.."INTELLIGENCE", function() self:SetColor(colorCodes.INTELLIGENCE) end)
-	self.controls.default = new("ButtonControl"):ButtonControl({"TOPLEFT",self.controls.intelligence,"TOPLEFT"}, {120, 0, 100, 18}, "^7DEFAULT", function() self:SetColor("^7") end)
+	self.controls.default = new("ButtonControl"):ButtonControl({"TOPLEFT",self.controls.intelligence,"TOPLEFT"}, {120, 0, 100, 18}, locale.Label("^7DEFAULT"), function() self:SetColor("^7") end)
 
 	self.controls.edit = new("EditControl"):EditControl({"TOPLEFT",self.controls.fire,"TOPLEFT"}, {0, 48, 0, 0}, "", nil, "^%C\t\n", nil, nil, 16, true)
 	self.controls.edit.width = function()
@@ -42,7 +43,7 @@ Below are some common color codes PoB uses:	]]
 	self.controls.edit.height = function()
 		return self.height - 128
 	end
-	self.controls.toggleColorCodes = new("ButtonControl"):ButtonControl({"TOPRIGHT",self,"TOPRIGHT"}, {-10, 70, 160, 20}, "Show Color Codes", function()
+	self.controls.toggleColorCodes = new("ButtonControl"):ButtonControl({"TOPRIGHT",self,"TOPRIGHT"}, {-10, 70, 160, 20}, locale.Label("Show Color Codes"), function()
 		self.showColorCodes = not self.showColorCodes
 		self:SetShowColorCodes(self.showColorCodes)
 	end)

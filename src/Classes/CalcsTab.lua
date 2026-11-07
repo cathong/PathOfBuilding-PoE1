@@ -3,6 +3,7 @@
 -- Module: Calcs Tab
 -- Calculations breakdown tab for the current build.
 --
+local locale = require("Modules.Localization")
 local pairs = pairs
 local ipairs = ipairs
 local t_insert = table.insert
@@ -110,7 +111,7 @@ function CalcsTabClass:CalcsTab(build)
 			end)
 		} },
 		{ label = "Spectre Library", flag = "spectre", { controlName = "mainSkillMinionLibrary",
-			control = new("ButtonControl"):ButtonControl(nil, {0, 0, 100, 16}, "Manage Spectres...", function()
+			control = new("ButtonControl"):ButtonControl(nil, {0, 0, 100, 16}, locale.Label("Manage Spectres..."), function()
 				self.build:OpenSpectreLibrary()
 			end)
 		} },
