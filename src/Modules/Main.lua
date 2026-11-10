@@ -1815,6 +1815,12 @@ end
 do
 	local wrapTable = { }
 	function main:WrapString(str, height, width)
+		str = locale.Display(str)
+		if locale.language == "zh-CN" and str:find("[\224-\239]") then
+			return locale.WrapCjk(str, width, function(text)
+				return locale.WidthRaw(height, "VAR", text)
+			end)
+		end
 		wipeTable(wrapTable)
 		local lineStart = 1
 		local lastSpace, lastBreak

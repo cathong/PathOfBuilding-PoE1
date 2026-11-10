@@ -3,6 +3,7 @@
 -- Class: DropDown Control
 -- Basic drop down control.
 --
+local locale = require("Modules.Localization")
 local ipairs = ipairs
 local m_min = math.min
 local m_max = math.max
@@ -412,7 +413,9 @@ function DropDownClass:Draw(viewPort, noTooltip)
 					end
 					DrawString(width - dx - 4 - 22, y, "LEFT", lineHeight, "VAR", detail)
 				end
-				self:DrawSearchHighlights(label, searchInfo, 0, y, width - 4, lineHeight)
+				if locale.Display(label) == label then
+					self:DrawSearchHighlights(label, searchInfo, 0, y, width - 4, lineHeight)
+				end
 			end
 		end
 		SetDrawColor(1, 1, 1)

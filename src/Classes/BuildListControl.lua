@@ -16,6 +16,7 @@ local BuildListClass = newClass("BuildListControl", "ListControl")
 ---@param listMode any
 function BuildListClass:BuildListControl(anchor, rect, listMode)
 	self:ListControl(anchor, rect, 20, "VERTICAL", false, listMode.list)
+	self.rawNameColumn = 1
 	self.listMode = listMode
 	self.colList = {
 		{ width = function() return self:GetProperty("width") - 172 end },

@@ -1049,7 +1049,7 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 			-- Draw tooltip
 			SetDrawLayer(nil, 100)
 			local size = m_floor(node.size * scale)
-			if self.tooltip:CheckForUpdate(node, self.showStatDifferences, self.tracePath, launch.devModeAlt, build.outputRevision, build.spec.allocMode) then
+			if self.tooltip:CheckForUpdate(node, self.showStatDifferences, self.tracePath, launch.devModeAlt, build.outputRevision, build.spec.allocMode, locale.language) then
 				self:AddNodeTooltip(self.tooltip, node, build)
 			end
 			self.tooltip.center = true
@@ -1154,7 +1154,7 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 				if compareNode == hoverCompareNode and (compareNode.type ~= "Mastery" or compareNode.masteryEffects) and not IsKeyDown("CTRL") and not main.popups[1] then
 					SetDrawLayer(nil, 100)
 					local size = m_floor(compareNode.size * scale)
-					if self.tooltip:CheckForUpdate(compareNode, false, nil, launch.devModeAlt, build.outputRevision) then
+					if self.tooltip:CheckForUpdate(compareNode, false, nil, launch.devModeAlt, build.outputRevision, locale.language) then
 						self:AddCompareNodeTooltip(self.tooltip, compareNode, build)
 					end
 					self.tooltip.center = true
@@ -1428,7 +1428,7 @@ function PassiveTreeViewClass:AddNodeName(tooltip, node, build)
 	else
 		tooltip.tooltipHeader = tooltipMap[node.type] or "UNKNOWN"
 	end
-	local nodeName = locale.Term("passives", node.dn)
+	local nodeName = locale.PassiveName(node.id, node.dn)
 	if main.showFlavourText then
 		nodeName = "^xF8E6CA" .. nodeName
 	end
@@ -1543,6 +1543,7 @@ function PassiveTreeViewClass:AddNodeTooltip(tooltip, node, build, returnEarly)
 
 	local function addModInfoToTooltip(node, i, line)
 		if node.mods[i] then
+			line = locale.Display(line)
 			if launch.devModeAlt and node.mods[i].list then
 				-- Modifier debugging info
 				local modStr
@@ -1652,7 +1653,7 @@ function PassiveTreeViewClass:AddNodeTooltip(tooltip, node, build, returnEarly)
 	if node.reminderText then
 		tooltip:AddSeparator(14)
 		for _, line in ipairs(node.reminderText) do
-			tooltip:AddLine(14, "^xA0A080"..line)
+			tooltip:AddLine(14, "^xA0A080"..locale.Display(line))
 		end
 	end
 
@@ -1799,6 +1800,7 @@ function PassiveTreeViewClass:AddCompareNodeTooltip(tooltip, node, build)
 		tooltip:AddLine(16, "")
 		for i, line in ipairs(node.sd) do
 			if node.mods and node.mods[i] then
+				line = locale.Display(line)
 				if line ~= " " and (node.mods[i].extra or not node.mods[i].list) then
 					tooltip:AddLine(fontSizeBig, colorCodes.UNSUPPORTED..line, "FONTIN")
 				else
@@ -1814,7 +1816,7 @@ function PassiveTreeViewClass:AddCompareNodeTooltip(tooltip, node, build)
 	if node.reminderText then
 		tooltip:AddSeparator(14)
 		for _, line in ipairs(node.reminderText) do
-			tooltip:AddLine(14, "^xA0A080"..line)
+			tooltip:AddLine(14, "^xA0A080"..locale.Display(line))
 		end
 	end
 
@@ -1847,7 +1849,7 @@ function PassiveTreeViewClass:AddCompareNodeName(tooltip, node)
 	else
 		tooltip.tooltipHeader = tooltipMap[node.type] or "UNKNOWN"
 	end
-	local nodeName = locale.Term("passives", node.dn)
+	local nodeName = locale.PassiveName(node.id, node.dn)
 	if main.showFlavourText then
 		nodeName = "^xF8E6CA" .. nodeName
 	end

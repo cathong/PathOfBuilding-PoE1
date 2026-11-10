@@ -23,6 +23,7 @@
 -- :OverrideSelectIndex(index) [Called when an index is selected, return true to prevent default action]
 -- :SetHighlightColor(index, value) [Called when querying if a row is highlighted by parent element class]
 --
+local locale = require("Modules.Localization")
 local ipairs = ipairs
 local t_insert = table.insert
 local t_remove = table.remove
@@ -225,15 +226,18 @@ function ListClass:Draw(viewPort, noTooltip)
 			local lineY = rowHeight * (index - 1) - scrollOffsetV + (self.colLabels and 18 or 0)
 			local value = list[index]
 			local text = self:GetRowValue(colIndex, index, value)
+			if self.rawNameColumn ~= colIndex then
+				text = locale.Display(text)
+			end
 			local icon = nil
 			if self.GetRowIcon then 
 				icon = self:GetRowIcon(colIndex, index, value)
 			end
-			local textWidth = DrawStringWidth(textHeight, colFont, text)
+			local textWidth = locale.WidthRaw(textHeight, colFont, text)
 			if textWidth > colWidth - 2 then
 				local clipIndex = DrawStringCursorIndex(textHeight, colFont, text, colWidth - clipWidth - 2, 0)
 				text = text:sub(1, clipIndex - 1) .. "..."
-				textWidth = DrawStringWidth(textHeight, colFont, text)
+				textWidth = locale.WidthRaw(textHeight, colFont, text)
 			end
 			if not scrollBarV.dragging and (not self.selDragActive or (self.CanDragToValue and self:CanDragToValue(index, value, self.otherDragSource))) then
 				if relX >= colOffset and relX <  (self.scroll and width - 20 or width) and relY >= 0 and relY >= lineY and relY < height - 2 - (self.scroll and self.scrollH and 18 or 0) and relY < lineY + rowHeight then
@@ -284,10 +288,10 @@ function ListClass:Draw(viewPort, noTooltip)
 			end
 			-- TODO: handle icon size properly, for now assume they are 16x16
 			if icon == nil then
-				DrawString(colOffset, lineY + textOffsetY, "LEFT", textHeight, colFont, text)
+				locale.DrawRaw(colOffset, lineY + textOffsetY, "LEFT", textHeight, colFont, text)
 			else
 				DrawImage(icon, colOffset, lineY, 16, 16)
-				DrawString(colOffset + 16 + 2, lineY + textOffsetY, "LEFT", textHeight, colFont, text)
+				locale.DrawRaw(colOffset + 16 + 2, lineY + textOffsetY, "LEFT", textHeight, colFont, text)
 			end
 		end
 		if self.colLabels then

@@ -1,3 +1,4 @@
+local locale = require("Modules.Localization")
 local atlas = require("Locales.CJK.glyphs")
 local utf8 = require("lua-utf8")
 local nativeDraw, nativeWidth, nativeCursor = DrawString, DrawStringWidth, DrawStringCursorIndex
@@ -39,7 +40,7 @@ local function lastColor(text)
 	return color
 end
 
-function DrawStringWidth(height, font, text)
+local function widthText(height, font, text)
 	if type(text) ~= "string" or not text:find("[\194-\244]") then
 		return nativeWidth(height, font, text)
 	end
@@ -51,7 +52,7 @@ function DrawStringWidth(height, font, text)
 	return width
 end
 
-function DrawString(x, y, align, height, font, text)
+local function drawText(x, y, align, height, font, text)
 	if type(text) ~= "string" or not text:find("[\194-\244]") then
 		return nativeDraw(x, y, align, height, font, text)
 	end
@@ -91,6 +92,16 @@ function DrawString(x, y, align, height, font, text)
 		y = y + height
 	end
 	SetDrawColor(r, g, b, a)
+end
+
+locale.drawRaw, locale.widthRaw = drawText, widthText
+
+function DrawStringWidth(height, font, text)
+	return widthText(height, font, locale.Display(text))
+end
+
+function DrawString(x, y, align, height, font, text)
+	return drawText(x, y, align, height, font, locale.Display(text))
 end
 
 function DrawStringCursorIndex(height, font, text, x, y)

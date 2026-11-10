@@ -3,6 +3,7 @@
 -- Class: Path Control
 -- Path control.
 --
+local locale = require("Modules.Localization")
 local ipairs = ipairs
 local t_insert = table.insert
 
@@ -43,7 +44,9 @@ function PathClass:SetSubPath(subPath, noUndo)
 		button.shown = true
 		button.x = x
 		button.label = folder.label
-		button.width = DrawStringWidth(self.height - 8, "VAR", folder.label) + 10
+		button.rawLabel = index > 1
+		local width = button.rawLabel and locale.WidthRaw or DrawStringWidth
+		button.width = width(self.height - 8, "VAR", folder.label) + 10
 		button.onClick = function()
 			self:SetSubPath(folder.path)
 		end

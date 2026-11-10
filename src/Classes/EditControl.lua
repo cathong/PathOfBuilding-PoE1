@@ -3,6 +3,7 @@
 -- Class: Edit Control
 -- Basic edit control.
 --
+local locale = require("Modules.Localization")
 local m_max = math.max
 local m_min = math.min
 local m_floor = math.floor
@@ -213,10 +214,10 @@ function EditClass:UpdateScrollBars()
 	local width, height = self:GetSize()
 	local textHeight = self.lineHeight or (height - 4)
 	if self.lineHeight then
-		self.controls.scrollBarH:SetContentDimension(DrawStringWidth(textHeight, self.font, self.buf) + 2, width - 18)
+		self.controls.scrollBarH:SetContentDimension(locale.WidthRaw(textHeight, self.font, self.buf) + 2, width - 18)
 		self.controls.scrollBarV:SetContentDimension(newlineCount(self.buf.."\n") * textHeight, height - (self.controls.scrollBarH.enabled and 18 or 4))
 	else
-		self.controls.scrollBarH:SetContentDimension(DrawStringWidth(textHeight, self.font, self.buf) + 2, width - 4 - (self.prompt and DrawStringWidth(textHeight, self.font, self.prompt) + textHeight/2 or 0))
+		self.controls.scrollBarH:SetContentDimension(locale.WidthRaw(textHeight, self.font, self.buf) + 2, width - 4 - (self.prompt and DrawStringWidth(textHeight, self.font, self.prompt) + textHeight/2 or 0))
 	end
 end
 
@@ -224,7 +225,7 @@ function EditClass:ScrollCaretIntoView()
 	local width, height = self:GetSize()
 	local textHeight = self.lineHeight or (height - 4)
 	local pre = self.buf:sub(1, self.caret - 1)
-	local caretX = DrawStringWidth(textHeight, self.font, lastLine(pre))
+	local caretX = locale.WidthRaw(textHeight, self.font, lastLine(pre))
 	self:UpdateScrollBars()
 	self.controls.scrollBarH:ScrollIntoView(caretX - textHeight, textHeight * 2)
 	if self.lineHeight then
@@ -235,7 +236,7 @@ end
 
 function EditClass:MoveCaretVertically(offset)
 	local pre = self.buf:sub(1, self.caret - 1)
-	local caretX = DrawStringWidth(self.lineHeight, self.font, lastLine(pre))
+	local caretX = locale.WidthRaw(self.lineHeight, self.font, lastLine(pre))
 	local caretY = newlineCount(pre) * self.lineHeight
 	self.caret = DrawStringCursorIndex(self.lineHeight, self.font, self.buf, caretX + 1, caretY + self.lineHeight/2 + offset)
 	self.lastUndoState.caret = self.caret
@@ -304,11 +305,11 @@ function EditClass:Draw(viewPort, noTooltip)
 			if self.inactiveText then
 				local inactiveText = type(self.inactiveText) == "string" and self.inactiveText or self.inactiveText(self.buf)
 				---@cast inactiveText string
-				DrawString(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, inactiveText)
+				locale.DrawRaw(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, inactiveText)
 			elseif self.protected then
-				DrawString(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, string.rep(protected_replace, #self.buf))
+				locale.DrawRaw(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, string.rep(protected_replace, #self.buf))
 			else
-				DrawString(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, self.buf)
+				locale.DrawRaw(-self.controls.scrollBarH.offset, -self.controls.scrollBarV.offset, "LEFT", textHeight, self.font, self.buf)
 			end
 		end
 		SetViewport()
@@ -334,13 +335,13 @@ function EditClass:Draw(viewPort, noTooltip)
 		for s, line, e in (self.buf.."\n"):gmatch("()([^\n]*)\n()") do
 			textX = -self.controls.scrollBarH.offset
 			if left >= e or right <= s then
-				DrawString(textX, textY, "LEFT", textHeight, self.font, line)
+				locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, line)
 			end
 			if left < e then
 				if left > s then
 					local pre = line:sub(1, left - s)
-					DrawString(textX, textY, "LEFT", textHeight, self.font, pre)
-					textX = textX + DrawStringWidth(textHeight, self.font, pre)
+					locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, pre)
+					textX = textX + locale.WidthRaw(textHeight, self.font, pre)
 				end
 				if left >= s and left == self.caret then
 					caretX, caretY = textX, textY
@@ -351,10 +352,10 @@ function EditClass:Draw(viewPort, noTooltip)
 				if right >= e then
 					sel = sel .. "  "
 				end
-				local selWidth = DrawStringWidth(textHeight, self.font, sel)
+				local selWidth = locale.WidthRaw(textHeight, self.font, sel)
 				SetDrawColor(self.selBGCol)
 				DrawImage(nil, textX, textY, selWidth, textHeight)
-				DrawString(textX, textY, "LEFT", textHeight, self.font, sel)
+				locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, sel)
 				SetDrawColor(self.textCol)
 				textX = textX + selWidth
 			end
@@ -364,8 +365,8 @@ function EditClass:Draw(viewPort, noTooltip)
 			if right > s then
 				if right < e then
 					local post = line:sub(right - s + 1)
-					DrawString(textX, textY, "LEFT", textHeight, self.font, post)
-					textX = textX + DrawStringWidth(textHeight, self.font, post)
+					locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, post)
+					textX = textX + locale.WidthRaw(textHeight, self.font, post)
 				end
 			end
 			textY = textY + textHeight
@@ -383,23 +384,23 @@ function EditClass:Draw(viewPort, noTooltip)
 		local sel = self.selCol .. StripEscapes(self.buf:sub(left, right - 1))
 		local post = self.textCol .. self.buf:sub(right)
 		if self.protected then
-			DrawString(textX, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #pre-#self.textCol))
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #pre-#self.textCol))
 		else
-			DrawString(textX, textY, "LEFT", textHeight, self.font, pre)
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, pre)
 		end
-		textX = textX + DrawStringWidth(textHeight, self.font, pre)
-		local selWidth = DrawStringWidth(textHeight, self.font, sel)
+		textX = textX + locale.WidthRaw(textHeight, self.font, pre)
+		local selWidth = locale.WidthRaw(textHeight, self.font, sel)
 		SetDrawColor(self.selBGCol)
 		DrawImage(nil, textX, textY, selWidth, textHeight)
 		if self.protected then
-			DrawString(textX, textY, "LEFT", textHeight, self.font, self.selCol .. string.rep(protected_replace, #sel-#self.selCol))
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, self.selCol .. string.rep(protected_replace, #sel-#self.selCol))
 		else
-			DrawString(textX, textY, "LEFT", textHeight, self.font, sel)
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, sel)
 		end
 		if self.protected and #post > 0 then
-			DrawString(textX + selWidth, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #post-#self.textCol))
+			locale.DrawRaw(textX + selWidth, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #post-#self.textCol))
 		else
-			DrawString(textX + selWidth, textY, "LEFT", textHeight, self.font, post)
+			locale.DrawRaw(textX + selWidth, textY, "LEFT", textHeight, self.font, post)
 		end
 		if (GetTime() - self.blinkStart) % 1000 < 500 then
 			local caretX = (self.caret > self.sel) and textX + selWidth or textX
@@ -414,15 +415,15 @@ function EditClass:Draw(viewPort, noTooltip)
 		local pre = self.textCol .. self.buf:sub(1, self.caret - 1)
 		local post = self.buf:sub(self.caret)
 		if self.protected then
-			DrawString(textX, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #pre-#self.textCol))
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, self.textCol .. string.rep(protected_replace, #pre-#self.textCol))
 		else
-			DrawString(textX, textY, "LEFT", textHeight, self.font, pre)
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, pre)
 		end
-		textX = textX + DrawStringWidth(textHeight, self.font, pre)
+		textX = textX + locale.WidthRaw(textHeight, self.font, pre)
 		if self.protected and #post > 0 then
-			DrawString(textX, textY, "LEFT", textHeight, self.font, string.rep(protected_replace, #post))
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, string.rep(protected_replace, #post))
 		else
-			DrawString(textX, textY, "LEFT", textHeight, self.font, post)
+			locale.DrawRaw(textX, textY, "LEFT", textHeight, self.font, post)
 		end
 		if (GetTime() - self.blinkStart) % 1000 < 500 then
 			SetDrawColor(self.textCol)

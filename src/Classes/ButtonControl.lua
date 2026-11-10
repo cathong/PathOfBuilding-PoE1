@@ -4,6 +4,7 @@
 -- Basic button control.
 --
 ---@class ButtonControl: Control, TooltipHost
+local locale = require("Modules.Localization")
 local ButtonClass = newClass("ButtonControl", "Control", "TooltipHost")
 
 function ButtonClass:ButtonControl(anchor, rect, label, onClick, onHover, forceTooltip)
@@ -90,7 +91,8 @@ function ButtonClass:Draw(viewPort, noTooltip)
 		DrawImageQuad(nil, x + width * 0.7, y + height * 0.2, x + width * 0.8, y + height * 0.3, x + width * 0.3, y + height * 0.8, x + width * 0.2, y + height * 0.7)
 	else
 		local overSize = self.overSizeText or 0
-		DrawString(x + width / 2, y + 2 - overSize, "CENTER_X", height - 4 + overSize * 2, "VAR", label)
+		local draw = self.rawLabel and locale.DrawRaw or DrawString
+		draw(x + width / 2, y + 2 - overSize, "CENTER_X", height - 4 + overSize * 2, "VAR", label)
 	end
 	if mOver then
 		if not noTooltip or self.forceTooltip then

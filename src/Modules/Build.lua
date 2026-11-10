@@ -1281,7 +1281,7 @@ function buildMode:OnFrame(inputEvents)
 	if main.useCompactValues ~= self.lastUseCompactValues then
 		self:RefreshStatList()
 	end
-	if main.decimalSeparator ~= self.lastShowDecimalSeparator then
+	if main.decimalSeparator ~= self.lastShowDecimalSeparator or locale.language ~= self.lastStatListLanguage then
 		self:RefreshStatList()
 	end
 	if main.showTitlebarName ~= self.lastShowTitlebarName then
@@ -1934,14 +1934,15 @@ function buildMode:AddDisplayStatList(statList, actor, actorName)
 						labelColor = colorCodes.CUSTOM
 						table.sort(actor.output.SkillDPS, function(a,b) return (a.dps * a.count) > (b.dps * b.count) end)
 						for _, skillData in ipairs(actor.output.SkillDPS) do
+							local skillName = locale.Display(skillData.name)
 							local triggerStr = ""
 							if skillData.trigger and skillData.trigger ~= "" then
-								triggerStr = colorCodes.WARNING.." ("..skillData.trigger..")"..labelColor
+								triggerStr = colorCodes.WARNING.." ("..locale.Display(skillData.trigger)..")"..labelColor
 							end
-							local lhsString = labelColor..skillData.name..triggerStr..":"
 							if skillData.count >= 2 then
-								lhsString = labelColor..tostring(skillData.count).."x "..skillData.name..triggerStr..":"
+								skillName = s_format(locale.Text("%sx %s"), tostring(skillData.count), skillName)
 							end
+							local lhsString = labelColor..skillName..triggerStr..locale.Text(":")
 							t_insert(statBoxList, {
 								height = 16,
 								lhsString,
@@ -1951,14 +1952,14 @@ function buildMode:AddDisplayStatList(statList, actor, actorName)
 								t_insert(statBoxList, {
 									height = 14,
 									align = "CENTER_X", x = 140,
-									"^8"..skillData.skillPart,
+									"^8"..locale.Display(skillData.skillPart),
 								})
 							end
 							if skillData.source then
 								t_insert(statBoxList, {
 									height = 14,
 									align = "CENTER_X", x = 140,
-									colorCodes.WARNING.."from " ..skillData.source,
+									colorCodes.WARNING..s_format(locale.Text("from %s"), locale.Display(skillData.source)),
 								})
 							end
 						end
@@ -1975,7 +1976,7 @@ function buildMode:AddDisplayStatList(statList, actor, actorName)
 								suffix = suffix(statVal, actor.output)
 							end
 							if suffix then
-								formattedStat = formattedStat .. "^x808080 (" .. suffix .. ")"
+								formattedStat = formattedStat .. "^x808080 (" .. locale.Display(suffix) .. ")"
 							end
 						end
 						local breakdown = self:GetStatBreakdownKey(statData, actorName)
@@ -1994,7 +1995,7 @@ function buildMode:AddDisplayStatList(statList, actor, actorName)
 						local breakdownColour = labelColor ~= "^7" and hexToRGB(labelColor) or colourCodeMap[labelColor]
 						t_insert(statBoxList, {
 							height = 16,
-							labelColor..statData.label..":",
+							labelColor..locale.Display(statData.label)..locale.Text(":"),
 							formattedStat,
 							breakdown = breakdown,
 							modNames = statData.modNames,
@@ -2013,8 +2014,8 @@ function buildMode:AddDisplayStatList(statList, actor, actorName)
 				end
 			elseif statData.label and statData.condFunc and statData.condFunc(actor.output) then
 				t_insert(statBoxList, { 
-					height = 16, labelColor..statData.label..":", 
-					"^7"..actor.output[statData.labelStat].."%^x808080" .. " (" .. statData.val  .. ")",})
+					height = 16, labelColor..locale.Display(statData.label)..locale.Text(":"),
+					"^7"..actor.output[statData.labelStat].."%^x808080" .. " (" .. locale.Display(statData.val) .. ")",})
 			elseif not statBoxList[#statBoxList] or statBoxList[#statBoxList][1] then
 				t_insert(statBoxList, { height = 6 })
 			end
@@ -2077,42 +2078,43 @@ end
 
 -- Build list of side bar stats
 function buildMode:RefreshStatList()
+	self.lastStatListLanguage = locale.language
 	self.controls.warnings.lines = {}
 	local statBoxList = wipeTable(self.controls.statBox.list)
 	if self.calcsTab.mainEnv.player.mainSkill.infoMessage then
 			if #self.calcsTab.mainEnv.player.mainSkill.infoMessage > 40 then
 				for line in string.gmatch(self.calcsTab.mainEnv.player.mainSkill.infoMessage, "([^:]+)") do
-					t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. line})
+					t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. locale.Display(line)})
 				end
 			else
-				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. self.calcsTab.mainEnv.player.mainSkill.infoMessage})
+				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. locale.Display(self.calcsTab.mainEnv.player.mainSkill.infoMessage)})
 			end
 		if self.calcsTab.mainEnv.player.mainSkill.infoMessage2 then
-			t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, "^8" .. self.calcsTab.mainEnv.player.mainSkill.infoMessage2})
+			t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, "^8" .. locale.Display(self.calcsTab.mainEnv.player.mainSkill.infoMessage2)})
 		end
 	end
 	if self.calcsTab.mainEnv.minion then
-		t_insert(statBoxList, { height = 18, "^7Minion:" })
+		t_insert(statBoxList, { height = 18, locale.Display("^7Minion:") })
 		if self.calcsTab.mainEnv.minion.mainSkill.infoMessage then
 			-- Split the line if too long
 			if #self.calcsTab.mainEnv.minion.mainSkill.infoMessage > 40 then
 				for line in string.gmatch(self.calcsTab.mainEnv.minion.mainSkill.infoMessage, "([^:]+)") do
-					t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. line})
+					t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. locale.Display(line)})
 				end
 			else
-				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. self.calcsTab.mainEnv.minion.mainSkill.infoMessage})
+				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, colorCodes.CUSTOM .. locale.Display(self.calcsTab.mainEnv.minion.mainSkill.infoMessage)})
 			end
 			if self.calcsTab.mainEnv.minion.mainSkill.infoMessage2 then
-				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, "^8" .. self.calcsTab.mainEnv.minion.mainSkill.infoMessage2})
+				t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, "^8" .. locale.Display(self.calcsTab.mainEnv.minion.mainSkill.infoMessage2)})
 			end
 		end
 		self:AddDisplayStatList(self.minionDisplayStats, self.calcsTab.mainEnv.minion, "minion")
 		t_insert(statBoxList, { height = 10 })
-		t_insert(statBoxList, { height = 18, "^7Player:" })
+		t_insert(statBoxList, { height = 18, locale.Display("^7Player:") })
 	end
 	if self.calcsTab.mainEnv.player.mainSkill.skillFlags.disable then
-		t_insert(statBoxList, { height = 16, "^7Skill disabled:" })
-		t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, self.calcsTab.mainEnv.player.mainSkill.disableReason })
+		t_insert(statBoxList, { height = 16, locale.Display("^7Skill disabled:") })
+		t_insert(statBoxList, { height = 14, align = "CENTER_X", x = 140, locale.Display(self.calcsTab.mainEnv.player.mainSkill.disableReason) })
 	end
 	self:AddDisplayStatList(self.displayStats, self.calcsTab.mainEnv.player, "player")
 	self:InsertItemWarnings()
@@ -2143,7 +2145,7 @@ function buildMode:CompareStatList(tooltip, statList, actor, baseOutput, compare
 
 				valStr = formatNumSep(valStr)
 
-				local line = s_format("%s%s %s", color, valStr, statData.label)
+				local line = s_format("%s%s %s", color, valStr, locale.Display(statData.label))
 				local pcPerPt = ""
 				if statData.compPercent and statVal1 ~= 0 and statVal2 ~= 0 then
 					local pc = statVal1 / statVal2 * 100 - 100
@@ -2153,7 +2155,7 @@ function buildMode:CompareStatList(tooltip, statList, actor, baseOutput, compare
 					end
 				end
 				if nodeCount then
-					line = line .. s_format(" ^8[%+"..statData.fmt.."%s per point]", diff * ((statData.pc or statData.mod) and 100 or 1) / nodeCount, pcPerPt)
+					line = line .. s_format(" ^8[%+"..statData.fmt.."%s %s]", diff * ((statData.pc or statData.mod) and 100 or 1) / nodeCount, pcPerPt, locale.Text("per point"))
 				end
 				tooltip:AddLine(14, line)
 				count = count + 1
@@ -2185,7 +2187,7 @@ do
 	local req = { }
 	function buildMode:AddRequirementsToTooltip(tooltip, level, str, dex, int, strBase, dexBase, intBase)
 		if level and level > 0 then
-			t_insert(req, s_format("^x7F7F7FLevel %s%d", main:StatColor(level, nil, self.characterLevel), level))
+			t_insert(req, s_format("^x7F7F7F"..locale.Text("Level %s%d"), main:StatColor(level, nil, self.characterLevel), level))
 		end
 		-- Convert normal attributes to Omni attributes
 		if self.calcsTab.mainEnv.modDB:Flag(nil, "OmniscienceRequirements") then
@@ -2198,22 +2200,22 @@ do
 			end
 			local omni = math.floor(highestAttribute * (100/omniSatisfy))
 			if omni and (omni > 0 or omni > self.calcsTab.mainOutput.Omni) then
-				t_insert(req, s_format("%s%d ^x7F7F7FOmni", main:StatColor(omni, 0, self.calcsTab.mainOutput.Omni), omni))
+				t_insert(req, s_format(locale.Text("%s%d ^x7F7F7FOmni"), main:StatColor(omni, 0, self.calcsTab.mainOutput.Omni), omni))
 			end
 		else 
 			if str and (str > 14 or str > self.calcsTab.mainOutput.Str) then
-				t_insert(req, s_format("%s%d ^x7F7F7FStr", main:StatColor(str, strBase, self.calcsTab.mainOutput.Str), str))
+				t_insert(req, s_format(locale.Text("%s%d ^x7F7F7FStr"), main:StatColor(str, strBase, self.calcsTab.mainOutput.Str), str))
 			end
 			if dex and (dex > 14 or dex > self.calcsTab.mainOutput.Dex) then
-				t_insert(req, s_format("%s%d ^x7F7F7FDex", main:StatColor(dex, dexBase, self.calcsTab.mainOutput.Dex), dex))
+				t_insert(req, s_format(locale.Text("%s%d ^x7F7F7FDex"), main:StatColor(dex, dexBase, self.calcsTab.mainOutput.Dex), dex))
 			end
 			if int and (int > 14 or int > self.calcsTab.mainOutput.Int) then
-				t_insert(req, s_format("%s%d ^x7F7F7FInt", main:StatColor(int, intBase, self.calcsTab.mainOutput.Int), int))
+				t_insert(req, s_format(locale.Text("%s%d ^x7F7F7FInt"), main:StatColor(int, intBase, self.calcsTab.mainOutput.Int), int))
 			end
 		end
 		if req[1] then
 			local fontSizeBig = main.showFlavourText and 18 or 16
-			tooltip:AddLine(fontSizeBig, "^x7F7F7FRequires "..table.concat(req, "^x7F7F7F, "), "FONTIN SC")
+			tooltip:AddLine(fontSizeBig, "^x7F7F7F"..locale.Text("Requires ")..table.concat(req, "^x7F7F7F, "), "FONTIN SC")
 			tooltip:AddSeparator(10)
 		end
 		wipeTable(req)

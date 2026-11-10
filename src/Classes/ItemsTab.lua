@@ -4539,7 +4539,7 @@ function ItemsTabClass:AddItemTooltip(tooltip, item, slot, dbMode, maxWidth)
 					local formattedModLine = itemLib.formatModLine(modLine, dbMode)
 					if formattedModLine then
 						for _ = 1, variantCount do
-							tooltip:AddLine(fontSizeBig, formattedModLine, "FONTIN SC", modLine)
+							tooltip:AddLine(fontSizeBig, locale.Display(formattedModLine), "FONTIN SC", modLine)
 						end
 					end
 				end
@@ -4605,7 +4605,7 @@ function ItemsTabClass:AddItemTooltip(tooltip, item, slot, dbMode, maxWidth)
 			if (item.title and item.title:match("Grand Spectrum")) then
 				local selectedFlavourId = nil
 				for _, lineEntry in ipairs(tooltip.lines or {}) do
-					local lineText = lineEntry.text or ""
+					local lineText = lineEntry.modLine and lineEntry.modLine.line or lineEntry.text or ""
 					if lineText:find("Power") then
 						selectedFlavourId = "UniqueJewel170"
 						break

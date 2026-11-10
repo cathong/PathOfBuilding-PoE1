@@ -3,6 +3,7 @@
 -- Module: Gem Tooltip
 -- Shared renderer for gem-style tooltips.
 
+local locale = require("Modules.Localization")
 local m_max = math.max
 
 ---@class GemTooltip
@@ -35,17 +36,17 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 		local globalLevels = displayInstance.globalLevel or 0
 		local itemLevels = displayInstance.itemLevel or 0
 		local supportLevels = displayInstance.supportLevel or 0
-		local maxLevel = gemInstance.level >= (gemInstance.gemData.naturalMaxLevel or math.huge) and " (Max)" or ""
+		local maxLevel = gemInstance.level >= (gemInstance.gemData.naturalMaxLevel or math.huge) and " " .. locale.Text("(Max)") or ""
 		if itemLevels ~= 0 or globalLevels ~= 0 or supportLevels ~= 0 then
 			tooltip:AddLine(fontSizeBig, "^x7F7F7FLevel: " .. colorCodes.MAGIC .. displayInstance.level, "FONTIN SC")
-			tooltip:AddLine(fontSizeBig, string.format("^7%d Levels from Gem%s", gemInstance.level, maxLevel), "FONTIN SC")
+			tooltip:AddLine(fontSizeBig, string.format("^7" .. locale.Text("%d Levels from Gem%s"), gemInstance.level, maxLevel), "FONTIN SC")
 			for _, source in ipairs({ { itemLevels, "Item" }, { globalLevels, "Global Modifiers" }, { supportLevels, "Supports" } }) do
 				if source[1] ~= 0 then
-					tooltip:AddLine(fontSizeBig, (source[1] > 0 and colorCodes.MAGIC or colorCodes.WARNING) .. string.format("%+d Levels from %s", source[1], source[2]), "FONTIN SC")
+					tooltip:AddLine(fontSizeBig, (source[1] > 0 and colorCodes.MAGIC or colorCodes.WARNING) .. string.format(locale.Text("%+d Levels from %s"), source[1], locale.Display(source[2])), "FONTIN SC")
 				end
 			end
 			if displayInstance.level ~= gemInstance.level + itemLevels + globalLevels + supportLevels then
-				tooltip:AddLine(fontSizeBig, "^x7F7F7FLimited to Level " .. displayInstance.level, "FONTIN SC")
+				tooltip:AddLine(fontSizeBig, "^x7F7F7F" .. locale.Text("Limited to Level ") .. displayInstance.level, "FONTIN SC")
 			end
 		else
 			tooltip:AddLine(fontSizeBig, string.format("^x7F7F7FLevel: ^7%d%s", gemInstance.level, maxLevel), "FONTIN SC")
@@ -66,10 +67,10 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			end
 		end
 		if reservation then
-			tooltip:AddLine(fontSizeBig, "^x7F7F7FReservation Override: ^7" .. reservation, "FONTIN SC")
+			tooltip:AddLine(fontSizeBig, "^x7F7F7FReservation Override: ^7" .. locale.Display(reservation), "FONTIN SC")
 		end
 		if grantedEffectLevel.cooldown then
-			local string = string.format("^x7F7F7FCooldown Time: ^7%.2f sec", grantedEffectLevel.cooldown)
+			local string = string.format("^x7F7F7FCooldown Time: ^7%.2f %s", grantedEffectLevel.cooldown, locale.Text("sec"))
 			if grantedEffectLevel.storedUses and grantedEffectLevel.storedUses > 1 then
 				string = string .. string.format(" (%d uses)", grantedEffectLevel.storedUses)
 			end
@@ -85,7 +86,7 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			end
 		end
 		if reservation then
-			tooltip:AddLine(fontSizeBig, "^x7F7F7FReservation: ^7" .. reservation, "FONTIN SC")
+			tooltip:AddLine(fontSizeBig, "^x7F7F7FReservation: ^7" .. locale.Display(reservation), "FONTIN SC")
 		end
 		local cost
 		for _, res in ipairs(data.costs) do
@@ -96,10 +97,10 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			end
 		end
 		if cost then
-			tooltip:AddLine(fontSizeBig, "^x7F7F7FCost: ^7" .. cost, "FONTIN SC")
+			tooltip:AddLine(fontSizeBig, "^x7F7F7FCost: ^7" .. locale.Display(cost), "FONTIN SC")
 		end
 		if grantedEffectLevel.cooldown then
-			local string = string.format("^x7F7F7FCooldown Time: ^7%.2f sec", grantedEffectLevel.cooldown, "FONTIN SC")
+			local string = string.format("^x7F7F7FCooldown Time: ^7%.2f %s", grantedEffectLevel.cooldown, locale.Text("sec"))
 			if grantedEffectLevel.storedUses and grantedEffectLevel.storedUses > 1 then
 				string = string .. string.format(" (%d uses)", grantedEffectLevel.storedUses)
 			end
@@ -112,7 +113,7 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 		end
 		if grantedEffectLevel.soulPreventionDuration then
 			tooltip:AddLine(fontSizeBig,
-				string.format("^x7F7F7FSoul Gain Prevention: ^7%d sec", grantedEffectLevel.soulPreventionDuration),
+				string.format("^x7F7F7FSoul Gain Prevention: ^7%d %s", grantedEffectLevel.soulPreventionDuration, locale.Text("sec")),
 				"FONTIN SC")
 		end
 		if gemInstance.gemData.tags.attack then
@@ -123,7 +124,7 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			end
 			if grantedEffectLevel.attackTime then
 				tooltip:AddLine(fontSizeBig,
-					string.format("^x7F7F7FAttack Time: ^7%.2f sec", grantedEffectLevel.attackTime / 1000), "FONTIN SC")
+					string.format("^x7F7F7FAttack Time: ^7%.2f %s", grantedEffectLevel.attackTime / 1000, locale.Text("sec")), "FONTIN SC")
 			end
 			if grantedEffectLevel.baseMultiplier then
 				tooltip:AddLine(fontSizeBig,
@@ -132,10 +133,10 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			end
 		else
 			if grantedEffect.castTime > 0 then
-				tooltip:AddLine(fontSizeBig, string.format("^x7F7F7FCast Time: ^7%.2f sec", grantedEffect.castTime),
+				tooltip:AddLine(fontSizeBig, string.format("^x7F7F7FCast Time: ^7%.2f %s", grantedEffect.castTime, locale.Text("sec")),
 					"FONTIN SC")
 			else
-				tooltip:AddLine(fontSizeBig, "^x7F7F7FCast Time: ^7Instant", "FONTIN SC")
+				tooltip:AddLine(fontSizeBig, "^x7F7F7FCast Time: ^7" .. locale.Text("Instant"), "FONTIN SC")
 			end
 		end
 		if grantedEffectLevel.critChance then
@@ -159,7 +160,7 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 			{ displayInstance.socketQuality or 0, "Socket Colour" },
 		}) do
 			if source[1] ~= 0 then
-				tooltip:AddLine(fontSizeBig, (source[1] > 0 and colorCodes.MAGIC or colorCodes.WARNING) .. string.format("%+d%% Quality from %s", source[1], source[2]), "FONTIN SC")
+				tooltip:AddLine(fontSizeBig, (source[1] > 0 and colorCodes.MAGIC or colorCodes.WARNING) .. string.format(locale.Text("%+d%% Quality from %s"), source[1], locale.Display(source[2])), "FONTIN SC")
 			end
 		end
 	end
@@ -173,7 +174,7 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 		build:AddRequirementsToTooltip(tooltip, reqLevel, reqStr, reqDex, reqInt)
 	end
 	if grantedEffect.description then
-		tooltip:AddLine(fontSizeBig, colorCodes.GEM .. grantedEffect.description, "FONTIN SC")
+		tooltip:AddLine(fontSizeBig, colorCodes.GEM .. locale.Display(grantedEffect.description), "FONTIN SC")
 	end
 	if build.data.describeStats then
 		tooltip:AddSeparator(10)
@@ -185,13 +186,15 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 		end
 		local descriptions, lineMap = build.data.describeStats(stats, grantedEffect.statDescriptionScope)
 		for _, line in ipairs(descriptions) do
-			local source = grantedEffect.statMap[lineMap[line]] or build.data.skillStatMap[lineMap[line]]
+			local statID = lineMap[line]
+			local source = grantedEffect.statMap[statID] or build.data.skillStatMap[statID]
+			line = locale.Display(line)
 			if source then
 				if launch.devModeAlt then
-					local devText = lineMap[line]
+					local devText = statID
 					if source[1] then
 						if not source[1].value then
-							source[1].value = lineMap[line]
+							source[1].value = statID
 						end
 						devText = modLib.formatMod(source[1])
 					end
@@ -200,10 +203,10 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 				tooltip:AddLine(fontSizeBig, colorCodes.MAGIC .. line, "FONTIN SC")
 			else
 				if launch.devModeAlt then
-					line = line .. " ^1" .. lineMap[line]
+					line = line .. " ^1" .. statID
 				end
 				local line = colorCodes.UNSUPPORTED .. line
-				line = main.notSupportedModTooltips and (line .. main.notSupportedTooltipText) or line
+				line = main.notSupportedModTooltips and (line .. " " .. locale.Text(main.notSupportedTooltipText:sub(2))) or line
 				tooltip:AddLine(fontSizeBig, line, "FONTIN SC")
 			end
 		end
