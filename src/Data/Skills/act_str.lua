@@ -4347,8 +4347,9 @@ skills["FlameLink"] = {
 	name = "Flame Link",
 	baseTypeName = "Flame Link",
 	color = 1,
-	baseEffectiveness = 0.52499997615814,
-	incrementalEffectiveness = 0.039000000804663,
+	-- 3.30 preview: fit to published level 1 and 20 endpoints.
+	baseEffectiveness = 0.94388395540639,
+	incrementalEffectiveness = 0.034086063056531,
 	description = "Targets an allied player to apply a buff which links you to them for a duration. While linked, they deal additional fire damage based on your life. If the target dies while linked, you will also die. This skill cannot be triggered, or used by Totems, Traps, or Mines.",
 	skillTypes = { [SkillType.Spell] = true, [SkillType.Buff] = true, [SkillType.Duration] = true, [SkillType.Link] = true, [SkillType.Fire] = true, },
 	statDescriptionScope = "buff_skill_stat_descriptions",
@@ -4373,7 +4374,7 @@ skills["FlameLink"] = {
 		{ "base_skill_effect_duration", 75 },
 	},
 	constantStats = {
-		{ "flame_link_added_fire_damage_from_life_%", 5 },
+		{ "flame_link_added_fire_damage_from_life_%", 3 },
 	},
 	stats = {
 		"flame_link_minimum_fire_damage",

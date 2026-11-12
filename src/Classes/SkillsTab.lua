@@ -1129,6 +1129,9 @@ end
 
 function SkillsTabClass:ProcessGemLevel(gemData, imbued)
 	local grantedEffect = gemData.grantedEffect
+	if grantedEffect.previewLevel then
+		return grantedEffect.previewLevel
+	end
 	local naturalMaxLevel = gemData.naturalMaxLevel
 	if imbued or self.defaultGemLevel == "levelOne" then
 		return 1

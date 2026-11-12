@@ -711,6 +711,9 @@ function calcs.initEnv(build, mode, override, specEnv)
 		end
 	end
 
+	if env.spec.curAscendClassName == "Warden" and (env.spec.treeVersion == "3_30" or env.spec.treeVersion == "3_30_ruthless") then
+		modDB.conditions["Local330WardenBarkskin"] = true
+	end
 	local allocatedNotableCount = env.spec.allocatedNotableCount
 	local allocatedKeystoneCount = env.spec.allocatedKeystoneCount
 	local allocatedMasteryCount = env.spec.allocatedMasteryCount

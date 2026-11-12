@@ -250,6 +250,9 @@ local function doActorAttribsConditions(env, actor)
 			end
 			if actor.mainSkill.skillTypes[SkillType.Movement] then
 				condList["UsedMovementSkillRecently"] = true
+				if actor.mainSkill.skillTypes[SkillType.Attack] then
+					condList["UsedAttackMovementSkillRecently"] = true
+				end
 			end
 			if actor.mainSkill.skillFlags.minion and not actor.mainSkill.skillFlags.permanentMinion then
 				condList["UsedMinionSkillRecently"] = true
@@ -1700,8 +1703,9 @@ function calcs.perform(env, skipEHP)
 		local flaskBuffsNonUtility = {}
 
 		local function calcFlaskMods(item, baseName, buffModList, modList, onlyMinion)
-			local flaskEffectInc = effectInc + item.flaskData.effectInc
-			local flaskEffectIncNonPlayer = effectIncNonPlayer + item.flaskData.effectInc
+			local baseEffectStat = calcLib.flaskBaseEffectStat(baseName)
+			local flaskEffectInc = effectInc + item.flaskData.effectInc + modDB:Sum("INC", { actor = "player" }, baseEffectStat)
+			local flaskEffectIncNonPlayer = effectIncNonPlayer + item.flaskData.effectInc + modDB:Sum("INC", nil, baseEffectStat)
 			if item.rarity == "MAGIC" and not (item.base.flask.life or item.base.flask.mana) then
 				flaskEffectInc = flaskEffectInc + effectIncMagic
 				flaskEffectIncNonPlayer = flaskEffectIncNonPlayer + effectIncMagicNonPlayer

@@ -171,15 +171,19 @@ skills["Barkskin"] = {
 	fromTree = true,
 	statMap = {
 		["physical_attack_damage_taken_+_per_barkskin_stack"] = {
-			mod("PhysicalDamageTakenFromAttacks", "BASE", nil, 0, 0, { type = "Multiplier", var = "BarkskinStacks", limitVar = "BarkskinMaxStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }),
+			mod("PhysicalDamageTakenFromAttacks", "BASE", nil, 0, 0, { type = "Multiplier", var = "BarkskinStacks", limitVar = "BarkskinMaxStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }, { type = "Condition", var = "Local330WardenBarkskin", neg = true }),
 		},
 		["chance_to_evade_attacks_+%_final_per_missing_barkskin_stack"] = {
-			mod("EvadeChance", "MORE", nil, 0, 0, { type = "Multiplier", var = "MissingBarkskinStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }),
+			mod("EvadeChance", "MORE", nil, 0, 0, { type = "Multiplier", var = "MissingBarkskinStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }, { type = "Condition", var = "Local330WardenBarkskin", neg = true }),
 		},
 		["max_barkskin_stacks"] = {
 			mod("Multiplier:BarkskinMaxStacks", "BASE", nil, 0, 0, { type = "GlobalEffect", effectType = "Buff", unscalable = true }),
 			mod("Multiplier:MissingBarkskinStacks", "BASE", nil, 0, 0, { type = "GlobalEffect", effectType = "Buff", unscalable = true }),
 		},
+	},
+	baseMods = {
+		mod("PhysicalDamageTakenFromAttacks", "BASE", -75, 0, 0, { type = "Multiplier", var = "BarkskinStacks", limitVar = "BarkskinMaxStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }, { type = "Condition", var = "Local330WardenBarkskin" }),
+		mod("EvadeChance", "MORE", 6, 0, 0, { type = "Multiplier", var = "MissingBarkskinStacks" }, { type = "GlobalEffect", effectType = "Buff", effectName = "Barkskin" }, { type = "Condition", var = "Local330WardenBarkskin" }),
 	},
 	baseFlags = {
 		spell = true,
@@ -211,7 +215,7 @@ skills["AilmentBearer"] = {
 		spell = true,
 	},
 	constantStats = {
-		{ "base_skill_effect_duration", 10000 },
+		{ "base_skill_effect_duration", 15000 },
 		{ "display_max_ailment_bearer_charges", 100 },
 		{ "display_ailment_bearer_charge_interval", 1 },
 	},

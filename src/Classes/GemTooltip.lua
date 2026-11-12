@@ -32,6 +32,12 @@ local function addCommonGemInfo(tooltip, build, gemInstance, grantedEffect, addL
 	local fontSizeBig = main.showFlavourText and 18 or 16
 	local displayInstance = gemInstance.displayEffect or gemInstance
 	local grantedEffectLevel = grantedEffect.levels[displayInstance.level] or {}
+	if grantedEffect.previewLevel then
+		tooltip:AddLine(fontSizeBig, colorCodes.WARNING .. locale.Text("3.30 preview: fixed to published level 20 and 20% quality."), "FONTIN SC")
+		if grantedEffect.previewNote then
+			tooltip:AddLine(fontSizeBig, locale.Text(grantedEffect.previewNote), "FONTIN SC")
+		end
+	end
 	if addLevel then
 		local globalLevels = displayInstance.globalLevel or 0
 		local itemLevels = displayInstance.itemLevel or 0

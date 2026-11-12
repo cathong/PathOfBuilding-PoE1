@@ -124,7 +124,7 @@ function GemSelectClass:PopulateGemList()
 
 	for gemId, gemData in pairs(self.skillsTab.build.data.gems) do
 		if not gemData.grantedEffect.hideFromGemList and (self.sortGemsBy and gemData.tags[self.sortGemsBy] == true or not self.sortGemsBy) then
-			local levelRequirement = gemData.grantedEffect.levels[1].levelRequirement or 1
+			local levelRequirement = gemData.grantedEffect.levels[gemData.grantedEffect.previewLevel or 1].levelRequirement or 1
 			if characterLevel >= levelRequirement or not matchLevel then
 				local isLegacyAwakened = gemData.grantedEffect.legacy and gemData.grantedEffect.plusVersionOf
 				if self.imbuedSelect then

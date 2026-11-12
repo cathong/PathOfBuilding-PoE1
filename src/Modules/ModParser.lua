@@ -1878,6 +1878,7 @@ local modTagList = {
 	["if you summoned a golem in the past 8 seconds"] = { tag = { type = "Condition", var = "SummonedGolemInPast8Sec" } },
 	["if you haven't summoned a totem in the past 2 seconds"] = { tag = { type = "Condition", var = "NoSummonedTotemsInPastTwoSeconds" }  },
 	["if you[' ]h?a?ve used a minion skill recently"] = { tag = { type = "Condition", var = "UsedMinionSkillRecently" } },
+	["if you[' ]h?a?ve used an attack movement skill recently"] = { tag = { type = "Condition", var = "UsedAttackMovementSkillRecently" } },
 	["if you[' ]h?a?ve used a movement skill recently"] = { tag = { type = "Condition", var = "UsedMovementSkillRecently" } },
 	["when you use a movement skill"] = { tag = { type = "Condition", var = "UsedMovementSkillRecently" } },
 	["if you haven't cast dash recently"] = { tag = { type = "Condition", var = "CastDashRecently", neg = true } },
@@ -2816,6 +2817,19 @@ local specialModList = {
 		flag("LightningCanIgnite"),
 		flag("ChaosCanIgnite"),
 	},
+	["all damage can (%a+) against cursed enemies"] = function(_, ailment)
+		local matchingDamage = ({ ignite = "Fire", shock = "Lightning", freeze = "Cold" })[ailment]
+		if not matchingDamage then
+			return
+		end
+		local mods = { }
+		for _, damage in ipairs({ "Physical", "Fire", "Cold", "Lightning", "Chaos" }) do
+			if damage ~= matchingDamage then
+				mods[#mods + 1] = flag(damage .. "Can" .. firstToUpper(ailment), { type = "ActorCondition", actor = "enemy", var = "Cursed" })
+			end
+		end
+		return mods
+	end,
 	["all damage can ignite"] = {
 		flag("PhysicalCanIgnite"),
 		flag("ColdCanIgnite"),
@@ -2975,6 +2989,10 @@ local specialModList = {
 	-- Pathfinder
 	["always poison on hit while using a flask"] = { mod("PoisonChance", "BASE", 100, { type = "Condition", var = "UsingFlask" }) },
 	["poisons you inflict during any flask effect have (%d+)%% chance to deal (%d+)%% more damage"] = function(num, _, more) return { mod("Damage", "MORE", tonumber(more) * num / 100, nil, 0, KeywordFlag.Poison, { type = "Condition", var = "UsingFlask" }) } end,
+	["(%d+)%% increased effect of granite flasks"] = function(num) return { mod("GraniteFlaskEffect", "INC", num) } end,
+	["(%d+)%% increased effect of ruby flasks"] = function(num) return { mod("RubyFlaskEffect", "INC", num) } end,
+	["(%d+)%% increased effect of sapphire flasks"] = function(num) return { mod("SapphireFlaskEffect", "INC", num) } end,
+	["(%d+)%% increased effect of topaz flasks"] = function(num) return { mod("TopazFlaskEffect", "INC", num) } end,
 	["immun[ei]t?y? to elemental ailments during any flask effect"] = { flag("ElementalAilmentImmune", { type = "Condition", var = "UsingFlask" }), },
 	["grant bonuses to non%-channelling skills you use by consuming (%d+) charges from a flask of each of the following types, if possible:"] = { },
 	["if diamond flask charges are consumed, (%d+)%% increased critical strike chance"] = function (num) return {
@@ -3170,6 +3188,9 @@ local specialModList = {
 	["hits can't be evaded"] = { flag("CannotBeEvaded", { type = "Condition", var = "{Hand}Attack" }) },
 	["causes bleeding on hit"] = { mod("BleedChance", "BASE", 100, { type = "Condition", var = "{Hand}Attack" }) },
 	["poisonous hit"] = { mod("PoisonChance", "BASE", 100, { type = "Condition", var = "{Hand}Attack" }) },
+	["(%d+)%% chance to deal triple damage on hit with this weapon"] = function(num)
+		return { mod("TripleDamageChance", "BASE", num, nil, ModFlag.Hit, { type = "Condition", var = "{Hand}Attack" }) }
+	end,
 	["attacks with this weapon deal double damage"] = { mod("DoubleDamageChance", "BASE", 100, nil, ModFlag.Hit, { type = "Condition", var = "{Hand}Attack" }, { type = "SkillType", skillType = SkillType.Attack }) },
 	["hits with this weapon gain (%d+)%% of physical damage as extra cold or lightning damage"] = function(num) return {
 		mod("PhysicalDamageGainAsColdOrLightning", "BASE", num, nil, ModFlag.Hit, { type = "Condition", var = "{Hand}Attack" }, { type = "SkillType", skillType = SkillType.Attack }),
@@ -4415,6 +4436,7 @@ local specialModList = {
 	["skills which throw traps throw up to (%d+) additional traps?"] = function(num) return { mod("TrapThrowCount", "BASE", tonumber(num)) } end,
 	-- Totems
 	["can have up to (%d+) additional totems? summoned at a time"] = function(num) return { mod("ActiveTotemLimit", "BASE", num) } end,
+	["attack skills have %+(%d+) to maximum number of summoned totems"] = function(num) return { mod("ActiveTotemLimit", "BASE", num, nil, 0, KeywordFlag.Attack) } end,
 	["attack skills can have (%d+) additional totems? summoned at a time"] = function(num) return { mod("ActiveTotemLimit", "BASE", num, nil, 0, KeywordFlag.Attack) } end,
 	["can [hs][au][vm][em]o?n? 1 additional siege ballista totem per (%d+) dexterity"] = function(num) return { mod("ActiveBallistaLimit", "BASE", 1, { type = "SkillName", skillName = "Siege Ballista", includeTransfigured = true }, { type = "PerStat", stat = "Dex", div = num }) } end,
 	["totems fire (%d+) additional projectiles"] = function(num) return { mod("ProjectileCount", "BASE", num, nil, 0, KeywordFlag.Totem) } end,
@@ -4679,6 +4701,10 @@ local specialModList = {
 		mod("InstantLifeLeech", "BASE", 100, { type = "Condition", var = "UsingFlask" }),
 		mod("InstantManaLeech", "BASE", 100, { type = "Condition", var = "UsingFlask" })
 	},
+	["life leech from critical strikes is instant"] = {
+		mod("InstantLifeLeech", "BASE", 100, { type = "Condition", var = "CriticalStrike" }),
+	},
+	["cannot regenerate or recoup life"] = { flag("NoLifeRegen"), flag("NoLifeRecoup") },
 	["life and mana leech from critical strikes are instant"] = {
 		mod("InstantLifeLeech", "BASE", 100, { type = "Condition", var = "CriticalStrike" }),
 		mod("InstantManaLeech", "BASE", 100, { type = "Condition", var = "CriticalStrike" })
@@ -5255,6 +5281,7 @@ local specialModList = {
 	["tinctures inflict weeping wounds instead of mana burn"] = { flag("Condition:WeepingWoundsInsteadOfManaBurn"), },
 	["tincture effects also apply to ranged weapons"] = { flag("TinctureRangedWeapons"), },
 	["you can have an additional tincture active"] = { mod("TinctureLimit", "BASE", 1), },
+	["you can have (%d+) additional tinctures active"] = function(num) return { mod("TinctureLimit", "BASE", num) } end,
 	["(%d+)%% increased tincture cooldown recovery rate"] = function(num) return { mod("TinctureCooldownRecovery", "INC", num) } end,
 	["adds (%d+) passive skills"] = function(num) return { mod("JewelData", "LIST", { key = "clusterJewelNodeCount", value = num }) } end,
 	["1 added passive skill is a jewel socket"] = { mod("JewelData", "LIST", { key = "clusterJewelSocketCount", value = 1 }) },

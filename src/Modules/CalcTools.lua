@@ -41,6 +41,11 @@ end
 -- Validate the level of the given gem
 function calcLib.validateGemLevel(gemInstance)
 	local grantedEffect = gemInstance.grantedEffect or gemInstance.gemData.grantedEffect
+	if grantedEffect.previewLevel then
+		gemInstance.level = grantedEffect.previewLevel
+		gemInstance.quality = grantedEffect.previewQuality
+		return
+	end
 	if not grantedEffect.levels[gemInstance.level] then
 		-- Try limiting to the level range of the skill
 		gemInstance.level = m_max(1, gemInstance.level)
@@ -55,6 +60,11 @@ function calcLib.validateGemLevel(gemInstance)
 		-- That failed, so just grab any level
 		gemInstance.level = next(grantedEffect.levels)
 	end
+end
+
+-- Separate from generic effect so a belt can affect only one flask base.
+function calcLib.flaskBaseEffectStat(baseName)
+	return baseName:gsub("%s+", "") .. "Effect"
 end
 
 -- Evaluate a skill type postfix expression

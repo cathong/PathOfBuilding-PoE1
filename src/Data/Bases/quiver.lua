@@ -261,9 +261,10 @@ itemBases["Artillery Quiver"] = {
 	type = "Quiver",
 	tags = { atlas_base_type = true, default = true, not_for_sale = true, quiver = true, quiveratlas1 = true, },
 	influenceTags = { shaper = "quiver_shaper", elder = "quiver_elder", adjudicator = "quiver_adjudicator", basilisk = "quiver_basilisk", crusader = "quiver_crusader", eyrie = "quiver_eyrie", cleansing = "quiver_cleansing", tangle = "quiver_tangle" },
-	implicit = "(20-30)% increased Totem Placement speed",
-	implicitModTypes = { { "speed" }, },
-	implicitIds = { "SummonTotemCastSpeedImplicit1", },
+	implicit = "Attack Skills have +1 to maximum number of Summoned Totems",
+	implicitModTypes = { { }, },
+	-- The 3.30 trade stat ID is not yet published.
+	implicitIds = { },
 	req = { level = 74, },
 }
 end

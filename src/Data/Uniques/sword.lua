@@ -257,12 +257,15 @@ Adds (5-8) to (10-14) Physical Damage
 The Living Blade
 Ezomyte Blade
 League: Settlers of Kalguur
+Variant: Pre 3.30.0
+Variant: Current
 Implicits: 1
 +25% to Global Critical Strike Multiplier
 (100-140)% increased Physical Damage
 (25-35)% increased Attack Speed
 Cannot be Poisoned
-You can have an additional Tincture active
+{variant:1}You can have an additional Tincture active
+{variant:2}You can have 2 additional Tinctures active
 10% chance to remove 1 Mana Burn on Kill
 ]],[[
 Oni-Goroshi

@@ -2,7 +2,11 @@
 -- 将此表用于显示文本。避免替换内部标识符、文件名和筛选语法。
 -- 含 % 占位符的条目应在 string.format 之前查询。
 return {
+	["3.30 preview: fixed to published level 20 and 20% quality."] = "3.30 预览：固定为官方已公布的 20 级、20% 品质。",
 
+	["Linked target gains 222 to 333 added lightning damage and 3% of your maximum mana as added lightning damage."] = "连接目标获得 222 至 333 点附加闪电伤害，以及相当于你最大魔力 3% 的附加闪电伤害。",
+	["70% less Projectile Speed"] = "投射物速度总降 70%",
+	["Have you used an Attack Movement Skill Recently?"] = "你近期是否使用过攻击类位移技能？",
 	-- 主界面及常用操作
 	["<< Back"] = "<< 返回",
 	["Save"] = "保存",

@@ -375,12 +375,22 @@ Implicits: 1
 ]],[[
 Doedre's Tongue
 Lapis Amulet
+Source: Covens of Umbra encounters
+Variant: Pre 3.30.0
+Variant: Current (Ignite)
+Variant: Current (Shock)
+Variant: Current (Freeze)
 Requires Level 24
 Implicits: 1
 {tags:attribute}+(20-30) to Intelligence
-{tags:resistance}+(20-25)% to all Elemental Resistances
-(20-25)% chance to Freeze, Shock and Ignite
+{variant:1}{tags:resistance}+(20-25)% to all Elemental Resistances
+{variant:2,3,4}{tags:resistance}+(30-35)% to all Elemental Resistances
+{variant:1}(20-25)% chance to Freeze, Shock and Ignite
+{variant:2,3,4}(25-50)% chance to Freeze, Shock and Ignite
 Cursed Enemies cannot inflict Elemental Ailments on You
+{variant:2}All Damage can Ignite against Cursed Enemies
+{variant:3}All Damage can Shock against Cursed Enemies
+{variant:4}All Damage can Freeze against Cursed Enemies
 ]],[[
 Extractor Mentis
 Agate Amulet
@@ -1044,6 +1054,9 @@ Implicits: 2
 ]],[[
 Rotmother's Mutiny
 Pearlescent Amulet
+Variant: Fire (Pre 3.30.0)
+Variant: Cold (Pre 3.30.0)
+Variant: Lightning (Pre 3.30.0)
 Variant: Fire
 Variant: Cold
 Variant: Lightning
@@ -1054,10 +1067,11 @@ Implicits: 1
 {tags:resistance}+(8-10)% to all Elemental Resistances
 {tags:resistance}+(20-25)% to all Elemental Resistances
 {tags:resistance}+(1-3)% to all maximum Resistances
-(25-75)% increased Light Radius
-{variant:2}+1% to Chaos Resistance per 1% Cold Resistance
-{variant:1}+1% to Chaos Resistance per 1% Fire Resistance
-{variant:3}+1% to Chaos Resistance per 1% Lightning Resistance
+{variant:1,2,3}(25-75)% increased Light Radius
+{variant:4,5,6}(20-40)% increased Light Radius
+{variant:2,5}+1% to Chaos Resistance per 1% Cold Resistance
+{variant:1,4}+1% to Chaos Resistance per 1% Fire Resistance
+{variant:3,6}+1% to Chaos Resistance per 1% Lightning Resistance
 ]],[[
 Sacrificial Heart
 Paua Amulet

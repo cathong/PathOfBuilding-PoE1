@@ -228,36 +228,70 @@ Has 1 Abyssal Socket
 Doryani's Invitation
 Heavy Belt
 Source: Drops from unique{Atziri, Queen of the Vaal} in normal{The Apex of Sacrifice}
+Version: Legacy
+Version: Current
 Variant: Pre 3.11.0 (Physical)
 Variant: Pre 3.11.0 (Fire)
 Variant: Pre 3.11.0 (Cold)
 Variant: Pre 3.11.0 (Lightning)
-Variant: Current (Physical)
-Variant: Current (Fire)
-Variant: Current (Cold)
-Variant: Current (Lightning)
+Variant: Pre 3.30.0 (Physical)
+Variant: Pre 3.30.0 (Fire)
+Variant: Pre 3.30.0 (Cold)
+Variant: Pre 3.30.0 (Lightning)
+Variant: Physical damage
+Variant: Fire damage
+Variant: Cold damage
+Variant: Lightning damage
+Variant: Armour
+Variant: Fire resistance
+Variant: Cold resistance
+Variant: Lightning resistance
+Variant: Physical leech
+Variant: Fire leech
+Variant: Cold leech
+Variant: Lightning leech
+Variant: Granite Flask effect
+Variant: Ruby Flask effect
+Variant: Sapphire Flask effect
+Variant: Topaz Flask effect
 Requires Level 68
 Implicits: 1
 {tags:attribute}+(25-35) to Strength
-{variant:1,5}{tags:physical_damage}(20-30)% increased Global Physical Damage
-{variant:2,6}{tags:elemental_damage}(20-30)% increased Fire Damage
-{variant:3,7}{tags:elemental_damage}(20-30)% increased Cold Damage
-{variant:4,8}{tags:elemental_damage}(20-30)% increased Lightning Damage
-{variant:2,3,4,6,7,8}{tags:defences}+(300-350) to Armour
-{variant:1,3,4,5,7,8}{tags:resistance}+(30-35)% to Fire Resistance
-{variant:1,2,4,5,6,8}{tags:resistance}+(30-35)% to Cold Resistance
-{variant:1,2,3,5,6,7}{tags:resistance}+(30-35)% to Lightning Resistance
-{variant:5}{tags:resource}0.6% of Physical Damage Leeched as Life
-{variant:6}{tags:resource}0.6% of Fire Damage Leeched as Life
-{variant:7}{tags:resource}0.6% of Cold Damage Leeched as Life
-{variant:8}{tags:resource}0.6% of Lightning Damage Leeched as Life
-{variant:2}10% chance to Ignite during any Flask Effect
-{variant:6}(20-30)% chance to Ignite during any Flask Effect
-{variant:3}10% chance to Freeze during any Flask Effect
-{variant:7}(20-30)% chance to Freeze during any Flask Effect
-{variant:4}10% chance to Shock during any Flask Effect
-{variant:8}(20-30)% chance to Shock during any Flask Effect
-{variant:1,5}25% reduced Enemy Stun Threshold during any Flask Effect
+{version:1}{group:1}{variant:1,5}{tags:physical_damage}(20-30)% increased Global Physical Damage
+{version:1}{group:1}{variant:2,6}{tags:elemental_damage}(20-30)% increased Fire Damage
+{version:1}{group:1}{variant:3,7}{tags:elemental_damage}(20-30)% increased Cold Damage
+{version:1}{group:1}{variant:4,8}{tags:elemental_damage}(20-30)% increased Lightning Damage
+{version:1}{group:1}{variant:2,3,4,6,7,8}{tags:defences}+(300-350) to Armour
+{version:1}{group:1}{variant:1,3,4,5,7,8}{tags:resistance}+(30-35)% to Fire Resistance
+{version:1}{group:1}{variant:1,2,4,5,6,8}{tags:resistance}+(30-35)% to Cold Resistance
+{version:1}{group:1}{variant:1,2,3,5,6,7}{tags:resistance}+(30-35)% to Lightning Resistance
+{version:1}{group:1}{variant:5}{tags:resource}0.6% of Physical Damage Leeched as Life
+{version:1}{group:1}{variant:6}{tags:resource}0.6% of Fire Damage Leeched as Life
+{version:1}{group:1}{variant:7}{tags:resource}0.6% of Cold Damage Leeched as Life
+{version:1}{group:1}{variant:8}{tags:resource}0.6% of Lightning Damage Leeched as Life
+{version:1}{group:1}{variant:2}10% chance to Ignite during any Flask Effect
+{version:1}{group:1}{variant:6}(20-30)% chance to Ignite during any Flask Effect
+{version:1}{group:1}{variant:3}10% chance to Freeze during any Flask Effect
+{version:1}{group:1}{variant:7}(20-30)% chance to Freeze during any Flask Effect
+{version:1}{group:1}{variant:4}10% chance to Shock during any Flask Effect
+{version:1}{group:1}{variant:8}(20-30)% chance to Shock during any Flask Effect
+{version:1}{group:1}{variant:1,5}25% reduced Enemy Stun Threshold during any Flask Effect
+{version:2}{variant:9}{group:1}(15-60)% increased Global Physical Damage
+{version:2}{variant:10}{group:1}(15-60)% increased Fire Damage
+{version:2}{variant:11}{group:1}(15-60)% increased Cold Damage
+{version:2}{variant:12}{group:1}(15-60)% increased Lightning Damage
+{version:2}{variant:13}{group:2}+(250-1000) to Armour
+{version:2}{variant:14}{group:2}+(25-100)% to Fire Resistance
+{version:2}{variant:15}{group:2}+(25-100)% to Cold Resistance
+{version:2}{variant:16}{group:2}+(25-100)% to Lightning Resistance
+{version:2}{variant:17}{group:3}0.6% of Physical Damage Leeched as Life
+{version:2}{variant:18}{group:3}0.6% of Fire Damage Leeched as Life
+{version:2}{variant:19}{group:3}0.6% of Cold Damage Leeched as Life
+{version:2}{variant:20}{group:3}0.6% of Lightning Damage Leeched as Life
+{version:2}{variant:21}{group:4}(20-80)% increased Effect of Granite Flasks
+{version:2}{variant:22}{group:4}(20-80)% increased Effect of Ruby Flasks
+{version:2}{variant:23}{group:4}(20-80)% increased Effect of Sapphire Flasks
+{version:2}{variant:24}{group:4}(20-80)% increased Effect of Topaz Flasks
 ]],[[
 The Druggery
 Cloth Belt

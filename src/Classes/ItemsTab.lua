@@ -4733,7 +4733,7 @@ function ItemsTabClass:AddItemStatDifferences(tooltip, item, base, slot)
 		local modDB = self.build.calcsTab.mainEnv.modDB
 		local output = self.build.calcsTab.mainOutput
 		local durInc = modDB:Sum("INC", nil, "FlaskDuration")
-		local effectInc = modDB:Sum("INC", { actor = "player" }, "FlaskEffect")
+		local effectInc = modDB:Sum("INC", { actor = "player" }, "FlaskEffect", calcLib.flaskBaseEffectStat(item.baseName))
 		local lifeDur = 0
 		local manaDur = 0
 

@@ -319,24 +319,66 @@ Grants Summon Greater Harbinger of Brutality Skill
 ]],[[
 Femurs of the Saints
 Primordial Staff
-Variant: Pre 2.6.0
-Variant: Pre 3.8.0
-Variant: Pre 3.25.0
-Variant: Current
+Version: Pre 2.6.0
+Version: Pre 3.8.0
+Version: Pre 3.25.0
+Version: Pre 3.30.0
+Version: Current (0 additional modifiers)
+Version: Current (1 additional modifiers)
+Version: Current (2 additional modifiers)
+Version: Current (3 additional modifiers)
+Version: Current (4 additional modifiers)
+Variant: Spectre minion damage
+Variant: Skeleton spell damage
+Variant: Zombie attack damage
+Variant: Skeleton attack block
+Variant: Zombie life regeneration
+Variant: Spectre mana regeneration
+Variant: Spirit attack and cast speed
 Implicits: 3
-{variant:1}+12% Chance to Block Attack Damage
-{variant:2,3}+18% Chance to Block Attack Damage
-{variant:4}+25% Chance to Block Spell Damage
-+2 to Level of Socketed Minion Gems
-{variant:3,4}Minions deal (60-80)% increased Damage
-{variant:1,2}Minions Regenerate (1.5-2.5)% of Life per second
-{variant:1,2}2% increased Minion Attack and Cast Speed per Skeleton you own
-{variant:1,2}2% increased Minion Duration per Raised Zombie
-{variant:1,2}(8-12)% increased Minion Damage per Raised Spectre
-{variant:3,4}+1% Chance to Block Attack Damage per Summoned Skeleton
-{variant:3,4}2% increased Attack and Cast Speed per Summoned Raging Spirit
-{variant:3,4}Regenerate 0.6% of Life per second for each Raised Zombie
-{variant:3,4}30% increased Mana Regeneration Rate per Raised Spectre
+{version:1}+12% Chance to Block Attack Damage
+{version:2,3}+18% Chance to Block Attack Damage
+{version:4,5,6,7,8,9}+25% Chance to Block Spell Damage
+{version:1,2,3,4}+2 to Level of Socketed Minion Gems
+{version:5,6,7,8,9}+(2-3) to Level of Socketed Minion Gems
+{version:5,6,7,8,9}Minions deal (80-100)% increased Damage
+{version:3,4}Minions deal (60-80)% increased Damage
+{version:1,2}Minions Regenerate (1.5-2.5)% of Life per second
+{version:1,2}2% increased Minion Attack and Cast Speed per Skeleton you own
+{version:1,2}2% increased Minion Duration per Raised Zombie
+{version:1,2}(8-12)% increased Minion Damage per Raised Spectre
+{version:3,4}+1% Chance to Block Attack Damage per Summoned Skeleton
+{version:3,4}2% increased Attack and Cast Speed per Summoned Raging Spirit
+{version:3,4}Regenerate 0.6% of Life per second for each Raised Zombie
+{version:3,4}30% increased Mana Regeneration Rate per Raised Spectre
+{version:6,7,8,9}{variant:1}{group:1}(10-15)% increased Minion Damage per Raised Spectre
+{version:6,7,8,9}{variant:2}{group:1}(12-18)% increased Spell Damage per Summoned Skeleton
+{version:6,7,8,9}{variant:3}{group:1}(16-24)% increased Attack Damage per Raised Zombie
+{version:6,7,8,9}{variant:4}{group:1}+(1-2)% Chance to Block Attack Damage per Summoned Skeleton
+{version:6,7,8,9}{variant:5}{group:1}Regenerate (0.8-1)% of Life per second for each Raised Zombie
+{version:6,7,8,9}{variant:6}{group:1}(40-60)% increased Mana Regeneration Rate per Raised Spectre
+{version:6,7,8,9}{variant:7}{group:1}(3-5)% increased Attack and Cast Speed per Summoned Raging Spirit
+{version:7,8,9}{variant:1}{group:2}(10-15)% increased Minion Damage per Raised Spectre
+{version:7,8,9}{variant:2}{group:2}(12-18)% increased Spell Damage per Summoned Skeleton
+{version:7,8,9}{variant:3}{group:2}(16-24)% increased Attack Damage per Raised Zombie
+{version:7,8,9}{variant:4}{group:2}+(1-2)% Chance to Block Attack Damage per Summoned Skeleton
+{version:7,8,9}{variant:5}{group:2}Regenerate (0.8-1)% of Life per second for each Raised Zombie
+{version:7,8,9}{variant:6}{group:2}(40-60)% increased Mana Regeneration Rate per Raised Spectre
+{version:7,8,9}{variant:7}{group:2}(3-5)% increased Attack and Cast Speed per Summoned Raging Spirit
+{version:8,9}{variant:1}{group:3}(10-15)% increased Minion Damage per Raised Spectre
+{version:8,9}{variant:2}{group:3}(12-18)% increased Spell Damage per Summoned Skeleton
+{version:8,9}{variant:3}{group:3}(16-24)% increased Attack Damage per Raised Zombie
+{version:8,9}{variant:4}{group:3}+(1-2)% Chance to Block Attack Damage per Summoned Skeleton
+{version:8,9}{variant:5}{group:3}Regenerate (0.8-1)% of Life per second for each Raised Zombie
+{version:8,9}{variant:6}{group:3}(40-60)% increased Mana Regeneration Rate per Raised Spectre
+{version:8,9}{variant:7}{group:3}(3-5)% increased Attack and Cast Speed per Summoned Raging Spirit
+{version:9}{variant:1}{group:4}(10-15)% increased Minion Damage per Raised Spectre
+{version:9}{variant:2}{group:4}(12-18)% increased Spell Damage per Summoned Skeleton
+{version:9}{variant:3}{group:4}(16-24)% increased Attack Damage per Raised Zombie
+{version:9}{variant:4}{group:4}+(1-2)% Chance to Block Attack Damage per Summoned Skeleton
+{version:9}{variant:5}{group:4}Regenerate (0.8-1)% of Life per second for each Raised Zombie
+{version:9}{variant:6}{group:4}(40-60)% increased Mana Regeneration Rate per Raised Spectre
+{version:9}{variant:7}{group:4}(3-5)% increased Attack and Cast Speed per Summoned Raging Spirit
 ]],[[
 Fencoil
 Gnarled Branch

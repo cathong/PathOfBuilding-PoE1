@@ -1426,6 +1426,8 @@ function calcs.defence(env, actor)
 				output.LifeRecoup = 0
 				local lifeRecoup = modDB:Sum("BASE", nil, "LifeRecoup")
 				modDB:NewMod("EnergyShieldRecoup", "BASE", lifeRecoup, "Life Recoup Conversion")
+			elseif recoupType == "Life" and modDB:Flag(nil, "NoLifeRecoup") then
+				output.LifeRecoup = 0
 			else
 				local baseRecoup = modDB:Sum("BASE", nil, recoupType .. "Recoup")
 				output[recoupType .. "Recoup"] = baseRecoup * output[recoupType .. "RecoveryRateMod"] * recoupInc * recoupMore
@@ -1462,6 +1464,8 @@ function calcs.defence(env, actor)
 				if recoupType == "Life" and modDB:Flag(nil, "EnergyShieldRecoupInsteadOfLife") then
 					output[recoupName] = 0
 					modDB:NewMod(damageType.."EnergyShieldRecoup", "BASE", recoup, "Life Recoup Conversion")
+				elseif recoupType == "Life" and modDB:Flag(nil, "NoLifeRecoup") then
+					output[recoupName] = 0
 				else
 					output[recoupName] = recoup * output[recoupType.."RecoveryRateMod"] * recoupInc * recoupMore
 					output["anyRecoup"] = output["anyRecoup"] + output[recoupName]

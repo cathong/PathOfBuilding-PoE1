@@ -104,7 +104,7 @@ function calcs.createActiveSkill(activeEffect, supportList, actor, socketGroup, 
 	---@class SkillFlags
 	local skillFlags = copyTable(activeGrantedEffect.baseFlags)
 	activeSkill.skillFlags = skillFlags
-	skillFlags.hit = skillFlags.hit or activeSkill.skillTypes[SkillType.Attack] or activeSkill.skillTypes[SkillType.Damage] or activeSkill.skillTypes[SkillType.Projectile]
+	skillFlags.hit = not activeGrantedEffect.previewNoHit and (skillFlags.hit or activeSkill.skillTypes[SkillType.Attack] or activeSkill.skillTypes[SkillType.Damage] or activeSkill.skillTypes[SkillType.Projectile])
 
 	-- Process support skills
 	activeSkill.effectList = { activeEffect }

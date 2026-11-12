@@ -1046,6 +1046,9 @@ data.skillStatMapMeta = {
 for _, type in pairs(skillTypes) do
 	LoadModule("Data/Skills/" .. type)(data.skills, makeSkillMod, makeFlagMod, makeSkillDataMod)
 end
+-- Preview-only gems have no published game IDs or level curves yet.
+data.gems = LoadModule("Data/Gems")
+LoadModule("Data/Skills/Preview330")(data.skills, makeSkillMod, makeSkillDataMod, data.gems)
 for skillId, grantedEffect in pairs(data.skills) do
 	grantedEffect.name = sanitiseText(grantedEffect.name)
 	grantedEffect.id = skillId
@@ -1080,8 +1083,7 @@ for skillId, grantedEffect in pairs(data.skills) do
 	end
 end
 
--- Load gems
-data.gems = LoadModule("Data/Gems")
+-- Index gems
 data.gemForSkill = { }
 data.gemForBaseName = { }
 data.gemsByGameId = { }
