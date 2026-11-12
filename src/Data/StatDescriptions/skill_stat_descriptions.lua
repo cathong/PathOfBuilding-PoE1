@@ -40203,22 +40203,18 @@ return {
 	[1288]={
 		[1]={
 			[1]={
-				[1]={
-					k="reminderstring",
-					v="ReminderTextSoulEaterNonAura"
-				},
 				limit={
 					[1]={
 						[1]="#",
 						[2]="#"
 					}
 				},
-				text="A nearby Minion gains a Soul for every {0} Life spent on Upfront Costs with this Spell"
+				text="A Minion within 6 metres gains a Power, Frenzy or Endurance Charge for every {0} Life spent on Upfront Costs with this Spell"
 			}
 		},
 		name="transfusion_support",
 		stats={
-			[1]="random_nearby_minion_gain_a_soul_eater_soul_on_X_life_spent"
+			[1]="transfusion_life_spent_per_minion_charge"
 		}
 	},
 	[1289]={
@@ -42053,12 +42049,12 @@ return {
 						[2]="#"
 					}
 				},
-				text="Sacrifices all but 1 of your Life and Energy Shield on Use"
+				text="Sacrifices all but {0}% of your maximum Life and Energy Shield on Use"
 			}
 		},
-		name="sacrifice_all_but_one_life_and_energy_shield_on_use",
+		name="vaal_sacrifice_life_and_energy_shield_retained",
 		stats={
-			[1]="skills_sacrifice_all_but_one_life_and_energy_shield_on_use"
+			[1]="vaal_sacrifice_life_and_energy_shield_retained_%"
 		}
 	},
 	[1360]={
@@ -54056,7 +54052,7 @@ return {
 	["rallying_cry_buff_effect_on_minions_+%_final"]=1689,
 	["rallying_cry_damage_+%_final_from_osm_per_nearby_ally"]=1693,
 	["rallying_cry_weapon_damage_%_for_allies_per_5_monster_power"]=1688,
-	["random_nearby_minion_gain_a_soul_eater_soul_on_X_life_spent"]=1288,
+	["transfusion_life_spent_per_minion_charge"]=1288,
 	["ranged_attack_totem_only_attacks_when_owner_attacks"]=1289,
 	["ravenous_buff_magnitude"]=1290,
 	["reap_life_%_granted_on_death_with_debuff"]=631,
@@ -54193,7 +54189,7 @@ return {
 	["skill_used_by_mirage_warrior_damage_+%_final"]=1357,
 	["skill_used_by_sacred_wisp_damage_+%_final"]=1358,
 	["skill_withered_duration_ms"]=143,
-	["skills_sacrifice_all_but_one_life_and_energy_shield_on_use"]=1359,
+	["vaal_sacrifice_life_and_energy_shield_retained_%"]=1359,
 	["slam_ancestor_totem_grant_owner_melee_damage_+%"]=70,
 	["slam_ancestor_totem_grant_owner_melee_damage_+%_final"]=66,
 	["slash_ancestor_totem_grant_owner_physical_damage_added_as_fire_+%"]=68,

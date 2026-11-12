@@ -10,13 +10,13 @@ liveTargetVersion = "3_0"
 ---@type string[]
 treeVersionList = { "2_6", "3_6", "3_7", "3_8", "3_9", "3_10", "3_11", "3_12", "3_13", "3_14", "3_15", "3_16", "3_17", "3_18", "3_19", "3_20", "3_21",
 					"3_22_ruthless", "3_22", "3_23_ruthless", "3_23", "3_24_ruthless", "3_24", "3_25_ruthless", "3_25_ruthless_alternate", "3_25_alternate", "3_25",
-					"3_26_ruthless", "3_26_ruthless_alternate", "3_26_alternate", "3_26", "3_27_ruthless", "3_27_ruthless_alternate", "3_27_alternate", "3_27", "3_28_ruthless", "3_28_ruthless_alternate", "3_28_alternate", "3_28", "3_29_ruthless", "3_29" }
+					"3_26_ruthless", "3_26_ruthless_alternate", "3_26_alternate", "3_26", "3_27_ruthless", "3_27_ruthless_alternate", "3_27_alternate", "3_27", "3_28_ruthless", "3_28_ruthless_alternate", "3_28_alternate", "3_28", "3_29_ruthless", "3_29", "3_30_ruthless", "3_30" }
 --- Always points to the latest skill tree version.
 latestTreeVersion = treeVersionList[#treeVersionList]
 ---Tree version where multiple skill trees per build were introduced to PoBC.
 defaultTreeVersion = treeVersionList[2]
 ---Display, comparison and export data for all supported skill tree versions.
----@type table<string, {display: string, num: number, url: string}>
+---@type table<string, {display: string, num: number, url: string, assetVersion: string?}>
 treeVersions = {
 	["2_6"] = {
 		display = "2.6",
@@ -222,6 +222,17 @@ treeVersions = {
 		display = "3.29",
 		num = 3.29,
 		url = "https://www.pathofexile.com/passive-skill-tree/3.29.0/",
+	},
+	["3_30_ruthless"] = {
+		display = "3.30 (ruthless)",
+		num = 3.30,
+		url = "https://www.pathofexile.com/passive-skill-tree/ruthless/",
+		assetVersion = "3_30",
+	},
+	["3_30"] = {
+		display = "3.30",
+		num = 3.30,
+		url = "https://www.pathofexile.com/passive-skill-tree/3.30.0/",
 	},
 }
 

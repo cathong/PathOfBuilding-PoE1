@@ -14009,29 +14009,18 @@ return {
 	[519]={
 		[1]={
 			[1]={
-				[1]={
-					k="reminderstring",
-					v="ReminderTextSoulEaterNonAura"
-				},
-				[2]={
-					k="reminderstring",
-					v="ReminderTextUpfrontCost"
-				},
-				[3]={
-					k="reminderstring",
-					v="ReminderTextTransfusionNearbyMinion"
-				},
+				[1]={ k="reminderstring", v="ReminderTextUpfrontCost" },
 				limit={
 					[1]={
 						[1]="#",
 						[2]="#"
 					}
 				},
-				text="A nearby Minion gains a Soul for every {0} Life you spend on Upfront\nCosts with Supported Spells"
+				text="A Minion within 6 metres gains a Power, Frenzy or Endurance Charge for every {0} Life you spend on Upfront Costs with Supported Spells"
 			}
 		},
 		stats={
-			[1]="random_nearby_minion_gain_a_soul_eater_soul_on_X_life_spent"
+			[1]="transfusion_life_spent_per_minion_charge"
 		}
 	},
 	[520]={
@@ -14651,11 +14640,11 @@ return {
 						[2]="#"
 					}
 				},
-				text="Supported Skills Sacrifice all but 1 of your Life and Energy Shield on Use"
+				text="Supported Skills Sacrifice all but {0}% of your maximum Life and Energy Shield on Use"
 			}
 		},
 		stats={
-			[1]="skills_sacrifice_all_but_one_life_and_energy_shield_on_use"
+			[1]="vaal_sacrifice_life_and_energy_shield_retained_%"
 		}
 	},
 	[549]={
@@ -21705,7 +21694,7 @@ return {
 	["quality_display_trap_duration_is_gem"]=60,
 	["quality_display_wand_damage_as_added_spell_damage_is_gem"]=388,
 	["rain_of_arrows_sequences_to_fire"]=44,
-	["random_nearby_minion_gain_a_soul_eater_soul_on_X_life_spent"]=519,
+	["transfusion_life_spent_per_minion_charge"]=519,
 	["ranged_attack_totem_only_attacks_when_owner_attacks"]=520,
 	["recover_%_life_when_stunning_an_enemy_permyriad"]=521,
 	["recover_%_maximum_life_on_cull"]=522,
@@ -21742,7 +21731,7 @@ return {
 	["skill_physical_damage_%_to_convert_to_fire"]=545,
 	["skill_physical_damage_%_to_convert_to_lightning"]=546,
 	["skill_used_by_sacred_wisp_damage_+%_final"]=547,
-	["skills_sacrifice_all_but_one_life_and_energy_shield_on_use"]=548,
+	["vaal_sacrifice_life_and_energy_shield_retained_%"]=548,
 	["snipe_triggered_skill_ailment_damage_+%_final_per_stage"]=551,
 	["snipe_triggered_skill_damage_+%_final"]=549,
 	["snipe_triggered_skill_hit_damage_+%_final_per_stage"]=550,

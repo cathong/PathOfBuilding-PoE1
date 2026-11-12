@@ -804,6 +804,11 @@ function PassiveTreeClass:ProcessStats(node, startIndex)
 		return
 	end
 
+	-- Use the displayed text of GGG's [keyword|text] links for parsing and translation.
+	for i = startIndex, #node.sd do
+		node.sd[i] = node.sd[i]:gsub("%[[^%[%]|]+|([^%[%]]+)%]", "%1")
+	end
+
 	-- Parse node modifier lines
 	local i = startIndex
 	while node.sd[i] do
@@ -911,10 +916,11 @@ function PassiveTreeClass:LoadImage(imgName, url, data, ...)
 	if imgFile then
 		imgFile:close()
 	else
-		imgFile = io.open("TreeData/"..self.treeVersion.."/"..imgName, "r")
+		local assetVersion = treeVersions[self.treeVersion].assetVersion or self.treeVersion
+		imgFile = io.open("TreeData/"..assetVersion.."/"..imgName, "r")
 		if imgFile then
 			imgFile:close()
-			imgName = self.treeVersion.."/"..imgName
+			imgName = assetVersion.."/"..imgName
 		elseif main.allowTreeDownload then -- Enable downloading with Ctrl+Shift+F5 (currently disabled)
 			ConPrintf("Downloading '%s'...", imgName)
 			local data = getFile(url)

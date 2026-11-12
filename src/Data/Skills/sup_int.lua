@@ -6979,10 +6979,10 @@ skills["SupportVaalSacrifice"] = {
 	},
 	constantStats = {
 		{ "base_spell_repeat_count", 1 },
+		{ "vaal_sacrifice_life_and_energy_shield_retained_%", 20 },
 	},
 	stats = {
 		"support_multicast_cast_speed_+%_final",
-		"skills_sacrifice_all_but_one_life_and_energy_shield_on_use",
 	},
 	levels = {
 		[1] = { 40, levelRequirement = 72, statInterpolation = { 1, }, },
