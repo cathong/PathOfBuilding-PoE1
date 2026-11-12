@@ -661,6 +661,10 @@ function buildMode:Init(dbFileName, buildName, buildXML, convertBuild, importLin
 	-- the simplest solution seems to be making sure passive trees (which contain jewel sockets) are loaded last.
 	local deferredPassiveTrees = { }
 	for _, node in ipairs(self.xmlSectionList) do
+		if node.elem == "AtlasPlan" then
+			self.atlasTab = new("AtlasTab"):AtlasTab(self)
+			self.atlasTab.plan:Load(node)
+		end
 		-- Check if there is a saver that can load this section
 		local saver = self.savers[node.elem] or self.legacyLoaders[node.elem]
 		if saver then
@@ -1322,7 +1326,7 @@ function buildMode:OnFrame(inputEvents)
 	elseif self.viewMode == "COMPARE" then
 		self.compareTab:Draw(tabViewPort, inputEvents)
 	elseif self.viewMode == "ATLAS" then
-		self.atlasTab = self.atlasTab or new("AtlasTab"):AtlasTab()
+		self.atlasTab = self.atlasTab or new("AtlasTab"):AtlasTab(self)
 		self.atlasTab:Draw(tabViewPort, inputEvents)
 	end
 
@@ -2300,6 +2304,10 @@ function buildMode:SaveDB(fileName)
 		local node = { elem = elem }
 		saver:Save(node)
 		t_insert(dbXML, node)
+	end
+
+	if self.atlasTab and self.atlasTab.plan.used > 0 then
+		t_insert(dbXML, self.atlasTab.plan:Save())
 	end
 
 	-- Compose the XML

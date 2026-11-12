@@ -51,6 +51,7 @@ def geometry(tree):
             "stats": [norm(s) for s in item["stats"] if norm(s)],
             "reminders": [norm(s) for s in item.get("reminderText", []) if norm(s)],
             "options": [[norm(s) for s in entry["stats"] if norm(s)] for entry in item.get("variantEffects", [])],
+            "optionIds": [entry["effect"] for entry in item.get("variantEffects", [])],
         }
     edges, special = set(), {}
     for key, raw in all_nodes.items():
@@ -62,7 +63,7 @@ def geometry(tree):
         for other in raw.get("out", []) + raw.get("in", []) + [c["to"] for c in raw.get("connections", [])]:
             if other in nodes and other != key and nodes[other]["kind"] != "mastery" and nodes[key]["kind"] != "mastery":
                 edges.add(tuple(sorted((key, other))))
-    segments = []
+    segments, ends = [], []
     for a, b in sorted(edges):
         raw, raw_b = all_nodes[a], all_nodes[b]
         u, v = nodes[a], nodes[b]
@@ -85,7 +86,8 @@ def geometry(tree):
                 points += [round(x + radius * math.cos(angle), 1), round(y + radius * math.sin(angle), 1)]
         points += [v["x"], v["y"]]
         segments.append(points)
-    return sorted(nodes.values(), key=lambda n: n["id"]), segments
+        ends.append([int(a), int(b)])
+    return sorted(nodes.values(), key=lambda n: n["id"]), segments, ends
 
 
 def sprites(art):
@@ -173,13 +175,14 @@ def main():
     atlas, en, cn = map(load, (args.atlas, args.official_en, args.official_cn))
     assert atlas["tree"] == en["tree"] == cn["tree"] == "Atlas"
     assert len(atlas["nodes"]) == 1117 and len(en["nodes"]) == len(cn["nodes"]) == 1030
-    nodes, edges = geometry(atlas)
+    nodes, edges, ends = geometry(atlas)
     sheets, icons = sprites(en)
     graph = {
         "version": "3.30", "sourceSha256": hashlib.sha256(args.atlas.read_bytes()).hexdigest(),
         "bounds": [min(n["x"] for n in nodes), min(n["y"] for n in nodes),
                    max(n["x"] for n in nodes), max(n["y"] for n in nodes)],
-        "nodes": nodes, "edges": edges, "sheets": sheets, "icons": icons,
+        "nodes": nodes, "edges": edges, "edgeEnds": ends, "sheets": sheets, "icons": icons,
+        "totalPoints": atlas["points"]["totalPoints"],
     }
     extra = load(args.extra)
     if "entries" in extra:

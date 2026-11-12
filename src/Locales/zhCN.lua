@@ -2,6 +2,20 @@
 -- 将此表用于显示文本。避免替换内部标识符、文件名和筛选语法。
 -- 含 % 占位符的条目应在 string.format 之前查询。
 return {
+	["Atlas Totals"] = "词缀总览",
+	["Atlas points: %d / %d used · %d left"] = "已用 %d / %d 点 · 剩余 %d 点",
+	["Click to allocate · Right-click to refund · Drag or scroll to move"] = "左键加点 · 右键退点 · 拖动平移 · 滚轮缩放",
+	["Allocate Atlas nodes to see their modifiers."] = "分配异界天赋后，这里会显示词缀合计。",
+	["Combined numeric modifiers"] = "数值合计",
+	["Separate effects"] = "独立效果",
+	["Atlas total %s · Example: %s"] = "合计 %s · 单条：%s",
+	["Allocate a connected Atlas node first."] = "请先分配与这个节点相连的天赋。",
+	["Refund dependent Atlas nodes first."] = "退掉这个节点会断开已分配的天赋，请先退掉依赖它的节点。",
+	["Atlas point limit reached."] = "异界天赋已达到官方点数上限。",
+	["Atlas node cannot be allocated."] = "这个节点不消耗点数，也不需要分配。",
+	["Choose one Atlas option."] = "请选择一项异界天赋效果。",
+	["Selected"] = "已选",
+	["Apply"] = "应用",
 	["Atlas Tree"] = "异界天赋",
 	["Atlas Passive Tree"] = "异界天赋树",
 	["Atlas Start"] = "异界起点",
