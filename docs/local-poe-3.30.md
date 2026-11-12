@@ -13,9 +13,17 @@
 
 角色树来自 [GGG 3.30.0 预览导出](https://github.com/grindinggear/skilltree-export/releases/tag/3.30.0)（提交 `550fb34`）。普通 `data.json` SHA-256：`9686b969bbd744a77f13eeadc57bb71be5032b0ed22be1ee4dbf2025649ccab0`；困难模式 `ruthless.json` SHA-256：`472417a63d8337d26f5708bdac9eee9a04e5fab9a2ecb8ed04a17a04ea4b6b52`。图标采用导出所指定的 0.3835 缩放档。其他数值以 [3.30 补丁](https://www.pathofexile.com/forum/view-thread/4013680)、[宝石公告](https://www.pathofexile.com/forum/view-thread/4013898)和[新暗金公告](https://www.pathofexile.com/forum/view-thread/4013701)为准；样本面板取自上列 PoEDB 页面。
 
+## 异界天赋页签
+
+在任意构筑打开「队伍 → 对比 → 异界天赋」这一排中的「异界天赋」。拖动平移、滚轮缩放，悬停查看节点说明；搜索框可匹配中英文名字和词条，「下一个」定位匹配结果，「查看全图」重置视角。这个页签用于浏览；不分配天赋，不会写入构筑或影响伤害计算。
+
+图的布局、连接和数值以 [GGG 3.30 异界树导出](https://github.com/grindinggear/atlastree-export/releases/tag/3.30.0)（提交 `22607c8`）为准，共 1,116 个图上节点。未发布的新版图标使用通用节点图案；复用的官方图标按资源名匹配。中文对照 [国际服官网](https://www.pathofexile.com/atlas-skill-tree) 与[国服官网](https://poe.game.qq.com/atlas-skill-tree) 的旧版同名节点和相同词条；新增或改动内容标为「3.30 预译」。按住 Shift 可以核对英文原文。查看器、图数据和中文词表随安装包提供，无需联网。
+
+离线生成器是 [atlas.py](../macos-localization/atlas.py)。输入官方 3.30 JSON，以及来自同一旧版本的中英文 JSON 和已核对的预译词表。导出 SHA-256 记录于 `src/Data/Atlas/3_30/tree.json`。当前 `src/Locales/Atlas/3_30.json` 可作为再生成时的 `--extra` 参数；若数值或英文改动，以正式数据重新对照。
+
 ## 开服后待核对
 
-本机于 2026-11-12 核对时，国际服客户端仍为 `3.29.3dd`。本分支未取得正式 3.30 客户端表。需要按客户端数据替换本地预览 ID、插值曲线，补齐装备、词缀权重、交易 ID 与掉落等级。PoB 的构筑计算不使用地图天赋，可另开 [GGG 3.30 异界树导出](https://github.com/grindinggear/atlastree-export/releases/tag/3.30.0)或 [PoEDB 异界树](https://poedb.tw/us/atlas-skill-tree/)；已核对前者的数据含 1,117 个节点记录（含根节点）。
+本机于 2026-11-12 核对时，国际服客户端仍为 `3.29.3dd`。本分支未取得正式 3.30 客户端表。需要按客户端数据替换本地预览 ID、插值曲线，补齐装备、词缀权重、交易 ID 与掉落等级。异界天赋独立于角色数值计算。
 
 - **赛季独有机制**：没有模拟空手视为爪、Temporal Mirage 与 Moonfall 的触发、永久致盲及全部首领窃取词缀、药剂自损和反击触发；这些效果不应计入比较结果。Putrid Seed 的油与珠宝扩展节点规则也未加入。
 - **其余数据**：Wickerman/内脏、佣兵实际生存和输出、新首领、完整词缀池及掉落规则没有进入本版计算。永恒珠宝继续使用已有查表；新节点的所有种子结果未逐一核验。

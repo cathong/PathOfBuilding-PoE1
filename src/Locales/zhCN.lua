@@ -2,6 +2,16 @@
 -- 将此表用于显示文本。避免替换内部标识符、文件名和筛选语法。
 -- 含 % 占位符的条目应在 string.format 之前查询。
 return {
+	["Atlas Tree"] = "异界天赋",
+	["Atlas Passive Tree"] = "异界天赋树",
+	["Atlas Start"] = "异界起点",
+	["Search Atlas"] = "搜索异界天赋",
+	["Find Next"] = "下一个",
+	["Fit Atlas"] = "查看全图",
+	["Preview translation · Hold Shift for English"] = "3.30 预译 · 按住 Shift 查看英文原文",
+	["Atlas option"] = "词条选项",
+	["Drag to pan · Scroll to zoom · Hover for details"] = "拖动平移 · 滚轮缩放 · 悬停查看词条",
+	["Atlas matches: %d"] = "匹配 %d 个节点",
 	["3.30 preview: fixed to published level 20 and 20% quality."] = "3.30 预览：固定为官方已公布的 20 级、20% 品质。",
 
 	["Linked target gains 222 to 333 added lightning damage and 3% of your maximum mana as added lightning damage."] = "连接目标获得 222 至 333 点附加闪电伤害，以及相当于你最大魔力 3% 的附加闪电伤害。",

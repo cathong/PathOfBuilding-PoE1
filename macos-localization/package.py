@@ -130,6 +130,7 @@ locale.SetLanguage("zh-CN")
         (src / "mac_entry.lua").write_text(bootstrap)
 
         glyph_sources = [src / "Locales/zhCN.lua"]
+        glyph_sources.extend(sorted((src / "Locales/Atlas").glob("*.json")))
         game = src / "Locales/Game"
         if game.exists():
             shutil.rmtree(game)
